@@ -1,14 +1,45 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { FcGoogle } from 'react-icons/fc'
+import React, { useCallback, useRef } from 'react';
+import { FcGoogle } from 'react-icons/fc';
+import { Link } from 'react-router-dom';
+import useAuthProviderHandler from '../../hooks/useAuthProviderHandler';
 export default function Authorization({ signIn }) {
+  const {createUserWithEmailAndPassword,updateProfile,signInWithEmailAndPassword,signInWithGoogle,errorMessage,setAuthProvider} = useAuthProviderHandler()
+  const userName = useRef();
+  const userEmail = useRef();
+  const userPassword = useRef();
+
+  const onSubmitHandler = useCallback((e) => {
+    e.preventDefault();
+    const formData = {
+      username: userName.current?.value,
+      email: userEmail.current?.value,
+      password: userPassword.current?.value
+    }
+    if (signIn) {
+      const { email, password } = formData
+      signInWithEmailAndPassword(email, password)
+      setAuthProvider('signIn')
+    } else {
+      const { username, email, password } = formData
+      createUserWithEmailAndPassword(email, password)
+      setAuthProvider('signUp')
+        .then(() => {
+          updateProfile({ displayName: username })
+          setAuthProvider('updating')
+        })
+    }
+  }, []);
+
+ 
+
+
   return (
     <div className='w-96 md:w-4/12 mx-auto mt-16'>
       <div className="text-center">
-        <h2 className='text-4xl text-slate-600 font-semibold'>{signIn ? 'Sign In' : 'Sign Up'}</h2>
+        <h2 className='text-4xl text-slate-600 font-semibold'>{signIn ? 'Welcome Back' : 'Welcome to Gerald Blog'}</h2>
         <Link to={signIn ? '/signUp' : '/signIn'} className='my-3 block text-emerald-500'>{signIn ? 'Need an account?' : 'Have an account?'}</Link>
       </div>
-      <form className="mt-8 space-y-6" action="#" method="POST">
+      <form className="mt-8 space-y-6" onSubmit={onSubmitHandler}>
         <input type="hidden" name="remember" defaultValue="true" />
         <div className=" flex flex-col gap-5">
           {!signIn && <div>
@@ -23,6 +54,7 @@ export default function Authorization({ signIn }) {
               required
               className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
               placeholder="Username"
+              ref={userName}
             />
           </div>}
           <div>
@@ -37,6 +69,7 @@ export default function Authorization({ signIn }) {
               required
               className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
               placeholder="Email address"
+              ref={userEmail}
             />
           </div>
           <div>
@@ -51,9 +84,12 @@ export default function Authorization({ signIn }) {
               required
               className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
               placeholder="Password"
+              ref={userPassword}
             />
           </div>
+
         </div>
+        <p>{errorMessage}</p>
         <div>
           <button
             type="submit"
@@ -65,15 +101,19 @@ export default function Authorization({ signIn }) {
       </form>
       <div className="flex flex-col ">
         <div className="flex gap-3 justify-center items-center">
-          <hr className='w-96 border border-b-0 border-zinc-300'/>
+          <hr className='w-96 border border-b-0 border-zinc-300' />
           <p className="mt-2 mb-4 text-center text-sm text-gray-600">
             Or{' '}
           </p>
-          <hr className='w-96 border border-b-0 border-zinc-300'/>
+          <hr className='w-96 border border-b-0 border-zinc-300' />
 
         </div>
 
-        <button className=" flex gap-1 justify-center font-semibold border border-zinc-400 py-2 px-10 shadow-md rounded-md  text-emerald-600 hover:text-emerald-500">
+        <button onClick={()=>{
+          signInWithGoogle()
+          setAuthProvider('googleSignIn')
+        }} 
+        className=" flex gap-1 justify-center font-semibold border border-zinc-400 py-2 px-10 shadow-md rounded-md  text-emerald-600 hover:text-emerald-500" >
           <FcGoogle className='font-bold text-2xl' /><span>Continue with google</span>
         </button>
       </div>

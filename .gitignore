@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /src/utilities/firebase.init.js
+/src/utilities/ContactFormFromReandomGuy
 /.pnp
 .pnp.js
 
