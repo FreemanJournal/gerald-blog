@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link, NavLink } from 'react-router-dom'
+import auth from '../../utilities/firebase.init';
 
 export default function NavBar() {
+  const [user, loading, error] = useAuthState(auth);
+
+  const [display, setDisplay] = useState(true)
+
+  useEffect(() => user ? setDisplay(true) : setDisplay(false), [user])
 
   const navigation = [
     { name: 'Home', href: '/', current: true },
-    { name: 'Write a blog...', href: '/blog', current: true },
-    { name: 'Settings', href: '/setting', current: true },
-    { name: 'Sign In', href: '/signIn', current: true },
-    { name: 'Sign Up', href: '/signUp', current: true },
+    { name: 'Write a blog...', href: '/blog', current: display },
+    { name: 'Settings', href: '/setting', current: display },
+    { name: 'Sign In', href: '/signIn', current: !display },
+    { name: 'Sign Up', href: '/signUp', current: !display },
   ]
 
 
@@ -24,11 +31,11 @@ export default function NavBar() {
               key={item.name}
               to={item.href}
               style={({ isActive }) => isActive ? { color: 'black' } : {}}
-              className="px-3 py-2 rounded-md text-base font-normal text-gray-400 hover:text-gray-900">
+              className={`${item.current ? 'px-3 py-2 rounded-md text-base font-normal text-gray-400 hover:text-gray-900' : 'hidden'}`}>
               {item.name}
             </NavLink>
           ))}
-          {<Link to="/" className='px-3 py-2 rounded-md text-base font-normal text-gray-400 hover:text-gray-900'>Md Ishaq</Link>}
+          {user && <Link to="/" className='px-3 py-2 rounded-md text-base font-normal text-gray-400 hover:text-gray-900'>{user?.displayName}</Link>}
 
         </div>
       </div>

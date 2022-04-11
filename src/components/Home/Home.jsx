@@ -1,11 +1,11 @@
 import React from 'react'
 import BlogFeed from '../BlogFeed/BlogFeed'
-import Header from '../Header/Header'
+import HeroBanner from '../Header/HeroBanner'
 
 export default function Home() {
   return (
     <>
-    <Header/>
+    <HeroBanner/>
     <BlogFeed/>
     </>
   )

@@ -1,10 +1,8 @@
 import React from 'react'
-import NavBar from './NavBar'
 
-export default function Header() {
+export default function HeroBanner() {
   return (
     <>
-      
       <div className="bg-emerald-400 headerShadow h-48 flex items-center">
         <div className="container text-center">
           <h1 className='text-white font-bold text-3xl md:text-6xl drop-shadow-md'>gerald blog</h1>

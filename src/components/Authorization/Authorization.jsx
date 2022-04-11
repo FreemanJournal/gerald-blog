@@ -1,9 +1,16 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { FcGoogle } from 'react-icons/fc';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuthProviderHandler from '../../hooks/useAuthProviderHandler';
+import auth from '../../utilities/firebase.init';
 export default function Authorization({ signIn }) {
-  const {createUserWithEmailAndPassword,updateProfile,signInWithEmailAndPassword,signInWithGoogle,errorMessage,setAuthProvider} = useAuthProviderHandler()
+  const [user, loading, error] = useAuthState(auth);
+
+  const { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, signInWithGoogle, errorMessage, setAuthProvider } = useAuthProviderHandler()
+
+
+  // Form Data
   const userName = useRef();
   const userEmail = useRef();
   const userPassword = useRef();
@@ -30,7 +37,17 @@ export default function Authorization({ signIn }) {
     }
   }, []);
 
- 
+  // Redirect
+
+  const location = useLocation()
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    let from = location.state?.from?.pathname || "/";
+    user && navigate(from, { replace: true })
+  }, [user])
+
+
 
 
   return (
@@ -109,11 +126,11 @@ export default function Authorization({ signIn }) {
 
         </div>
 
-        <button onClick={()=>{
+        <button onClick={() => {
           signInWithGoogle()
           setAuthProvider('googleSignIn')
-        }} 
-        className=" flex gap-1 justify-center font-semibold border border-zinc-400 py-2 px-10 shadow-md rounded-md  text-emerald-600 hover:text-emerald-500" >
+        }}
+          className=" flex gap-1 justify-center font-semibold border border-zinc-400 py-2 px-10 shadow-md rounded-md  text-emerald-600 hover:text-emerald-500" >
           <FcGoogle className='font-bold text-2xl' /><span>Continue with google</span>
         </button>
       </div>
