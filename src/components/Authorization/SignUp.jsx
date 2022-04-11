@@ -1,7 +1,8 @@
 import React from 'react'
+import Authorization from './Authorization'
 
 export default function SignUp() {
   return (
-    <div>SignUp</div>
+    <Authorization signIn={false}/>
   )
 }

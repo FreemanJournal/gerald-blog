@@ -14,10 +14,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.container{
+/* .container{
   width: calc(100vw - 20vw);
-  /* background: #000; */
   margin: 0 auto;
   padding: 1em 5em;
 
-}
+} */
