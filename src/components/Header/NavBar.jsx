@@ -12,8 +12,7 @@ export default function NavBar() {
 
   const navigation = [
     { name: 'Home', href: '/', current: true },
-    { name: 'Write a blog...', href: '/blog', current: display },
-    { name: 'Settings', href: '/setting', current: display },
+    { name: 'Dashboard', href: '/dashboard', current: display },
     { name: 'Sign In', href: '/signIn', current: !display },
     { name: 'Sign Up', href: '/signUp', current: !display },
   ]
@@ -35,7 +34,7 @@ export default function NavBar() {
               {item.name}
             </NavLink>
           ))}
-          {user && <Link to="/" className='px-3 py-2 rounded-md text-base font-normal text-gray-400 hover:text-gray-900'>{user?.displayName}</Link>}
+          {user && <NavLink style={({ isActive }) => isActive ? { color: 'black' } : {}} to="/profile" className='px-3 py-2 rounded-md text-base font-normal text-gray-400 hover:text-gray-900'>{user?.displayName}</NavLink>}
 
         </div>
       </div>

@@ -1,12 +1,12 @@
-import { useState } from 'react'
 import { Tab } from '@headlessui/react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import { GiSelfLove } from 'react-icons/gi'
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Feed() {
+export default function Feed({home}) {
+
     let [categories] = useState({
         Global: [
             {
@@ -18,7 +18,7 @@ export default function Feed() {
             },
             {
                 id: 2,
-                title: "So you've bought coffee... now what?",
+                title: "So you've bought coffee...now what?",
                 date: '2h ago',
                 commentCount: 3,
                 shareCount: 2,
@@ -46,9 +46,9 @@ export default function Feed() {
     return (
         <div className="px-2 py-16 sm:px-0">
             <Tab.Group>
-                <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
+                <Tab.List className={`flex p-1 space-x-1 bg-blue-900/20 rounded-xl ${home?'md:w-6/12':'md:w-4/12'}`}>
                     {Object.keys(categories).map((category) => (
-                        <Tab
+                        <Tab 
                             key={category}
                             className={({ selected }) =>
                                 classNames(
@@ -68,7 +68,6 @@ export default function Feed() {
                     {Object.values(categories).map((posts, idx) => {
 
                         return (
-
                             <Tab.Panel
                                 key={idx}
                                 className={classNames(
@@ -78,7 +77,7 @@ export default function Feed() {
                             >
                                 {
                                     posts.map((post, index) => (
-                                        <div className="blogCard mb-10 pb-5 border-b-2 border-slate-300">
+                                        <div className="blogCard mb-10 pb-5 border-b-2 border-slate-300" key={index}>
                                             <div className="intro flex justify-between">
                                                 <div className="relative">
                                                     <dt>
@@ -118,7 +117,6 @@ export default function Feed() {
                                 }
                                
                             </Tab.Panel>
-
                         )
                     })}
                 </Tab.Panels>
