@@ -1,12 +1,12 @@
 import React from 'react'
 import HeroBanner from '../../components/Header/HeroBanner'
-import BlogFeedPage from '../BlogFeedPage/BlogFeedPage'
+import FeedPage from '../FeedPage/FeedPage'
 
 export default function Home() {
   return (
     <>
     <HeroBanner home/>
-    <BlogFeedPage/>
+    <FeedPage/>
     </>
   )
 }

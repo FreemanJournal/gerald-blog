@@ -2,7 +2,7 @@ import Feed from "../../components/BlogFeed/Feed";
 import Tags from "../../components/BlogFeed/Tags";
 
 
-export default function BlogFeedPage() {
+export default function FeedPage() {
   return (
     <>
       <div className="container py-5 grid md:grid-cols-6 gap-10">
