@@ -9,8 +9,6 @@ function classNames(...classes) {
 
 export default function Profile() {
 
-    
-
     return (
         <>
             <HeroBanner />

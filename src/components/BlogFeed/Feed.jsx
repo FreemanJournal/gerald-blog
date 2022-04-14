@@ -1,12 +1,14 @@
 import { Tab } from '@headlessui/react'
 import { useState } from 'react'
 import { GiSelfLove } from 'react-icons/gi'
+import { BsDistributeHorizontal, BsHeartFill } from 'react-icons/bs'
+import { useNavigate } from 'react-router-dom'
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Feed({home}) {
-
+export default function Feed({ home, randomUser = false }) {
+    const navigate = useNavigate();
     let [categories] = useState({
         Global: [
             {
@@ -46,23 +48,34 @@ export default function Feed({home}) {
     return (
         <div className="px-2 py-16 sm:px-0">
             <Tab.Group>
-                <Tab.List className={`flex p-1 space-x-1 bg-blue-900/20 rounded-xl ${home?'md:w-6/12':'md:w-4/12'}`}>
-                    {Object.keys(categories).map((category) => (
-                        <Tab 
-                            key={category}
-                            className={({ selected }) =>
-                                classNames(
-                                    'w-full py-2.5 text-sm leading-5 font-medium text-slate-500 rounded-lg',
-                                    'focus:outline-none ring-white ring-opacity-60',
-                                    selected
-                                        ? 'bg-white shadow'
-                                        : 'text-slate-500 hover:bg-white/[0.12] hover:text-slate-900'
-                                )
-                            }
-                        >
-                            {category} Feed
-                        </Tab>
-                    ))}
+                <Tab.List className={`flex p-1 space-x-1 bg-blue-900/20 rounded-xl ${home ? 'md:w-6/12' : 'md:w-4/12'}`}>
+                    <Tab
+                        className={({ selected }) =>
+                            classNames(
+                                'w-full py-2.5 text-sm  font-medium text-slate-500 rounded-lg',
+                                'focus:outline-none ring-white ring-opacity-60',
+                                selected
+                                    ? 'bg-white shadow'
+                                    : 'text-slate-500 hover:bg-white/[0.12] hover:text-slate-900'
+                            )
+                        }
+                    >
+                        {home ? 'For You'  : 'Blogs'}
+                    </Tab>
+                    <Tab
+                        className={({ selected }) =>
+                            classNames(
+                                'w-full py-2.5 text-sm leading-5 font-medium text-slate-500 rounded-lg',
+                                'focus:outline-none ring-white ring-opacity-60',
+                                selected
+                                    ? 'bg-white shadow'
+                                    : 'text-slate-500 hover:bg-white/[0.12] hover:text-slate-900'
+                            )
+                        }
+                    >
+                        {home ? 'Following' : 'Favorite'}
+
+                    </Tab>
                 </Tab.List>
                 <Tab.Panels className="mt-2">
                     {Object.values(categories).map((posts, idx) => {
@@ -88,7 +101,7 @@ export default function Feed({home}) {
                                                                 alt="Avatar"
                                                             />
                                                         </div>
-                                                        <p className="ml-16 text-sm font-medium text-emerald-400">Honey Singh</p>
+                                                        <p className="ml-16 text-sm font-medium text-emerald-400 cursor-pointer hover:underline" onClick={() => navigate('/user-profile')}>Honey Singh</p>
                                                     </dt>
                                                     <dd className=" ml-16 text-xs text-slate-400">November 24,2021</dd>
                                                 </div>
@@ -99,13 +112,13 @@ export default function Feed({home}) {
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div className="para-section mt-5">
-                                                <div className="">
-                                                    <h2 className='text-3xl font-bold text-slate-600'>{post.title}</h2>
+                                            <div className="para-section mt-5 hover:cursor-pointer">
+                                                <div className="hover:underline underline-offset-4 ">
+                                                    <h2 className='text-3xl font-bold text-slate-600 '>{post.title}</h2>
                                                     <p className='text-slate-400'>join the community by creating a new implementation</p>
                                                 </div>
                                                 <div className="flex justify-between mt-5">
-                                                    <p className='text-slate-400'>Read more...</p>
+                                                    <p className='text-slate-400 hover:text-slate-600'>Read more...</p>
                                                     <p
                                                         className="px-3 rounded-full flex items-center text-slate-400 border border-slate-300  text-sm  cursor-pointer active:bg-gray-300 transition duration-300 ease">
                                                         welcome
@@ -115,7 +128,7 @@ export default function Feed({home}) {
                                         </div>
                                     ))
                                 }
-                               
+
                             </Tab.Panel>
                         )
                     })}
