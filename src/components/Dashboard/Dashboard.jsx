@@ -15,8 +15,8 @@ export default function Dashboard() {
         <div className=" py-16 sm:px-0">
             <div className="container">
                 <Tab.Group>
-                    <div className="grid grid-cols-12 gap-10">
-                        <Tab.List className="p-1 bg-blue-300/20 h-fit rounded-xl col-span-2">
+                    <div className="grid md:grid-cols-12 gap-10">
+                        <Tab.List className="p-1 bg-blue-300/20 h-fit rounded-xl md:col-span-2">
                             {categories.map((category) => (
                                 <Tab
                                     key={category}
@@ -37,7 +37,7 @@ export default function Dashboard() {
                                 </Tab>
                             ))}
                         </Tab.List>
-                        <Tab.Panels className="col-span-10">
+                        <Tab.Panels className="md:col-span-10">
                             <Tab.Panel
                                 className={classNames(
                                     'bg-white rounded-xl p-3 pt-0',

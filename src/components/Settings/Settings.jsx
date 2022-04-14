@@ -123,7 +123,7 @@ export default function Settings() {
           </button>
         </div>
       </form>
-      <div className="flex flex-col ">
+      <div className="flex flex-col w-72 md:w-auto mx-auto">
         <div className="flex gap-3 justify-center items-center">
           <hr className='w-96 border border-b-0 border-zinc-300' />
           <p className="mt-2 mb-4 text-center text-sm text-gray-600">

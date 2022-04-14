@@ -6,6 +6,7 @@ import useAuthProviderHandler from '../../hooks/useAuthProviderHandler';
 import auth from '../../utilities/firebase.init';
 export default function Authorization({ signIn }) {
   const [user, loading, error] = useAuthState(auth);
+  console.log('user', user);
 
   const { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, signInWithGoogle, errorMessage, setAuthProvider } = useAuthProviderHandler()
 
@@ -29,11 +30,11 @@ export default function Authorization({ signIn }) {
     } else {
       const { username, email, password } = formData
       createUserWithEmailAndPassword(email, password)
-      setAuthProvider('signUp')
         .then(() => {
           updateProfile({ displayName: username })
           setAuthProvider('updating')
         })
+      // setAuthProvider('signUp')
     }
   }, []);
 
@@ -112,7 +113,7 @@ export default function Authorization({ signIn }) {
             type="submit"
             className="w-24 group relative flex justify-center ml-auto py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-400 hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
           >
-            Sign in
+            {signIn?'Sign In':'Sign Up'}
           </button>
         </div>
       </form>

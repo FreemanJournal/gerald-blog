@@ -7,10 +7,10 @@ export default function useAuthProviderHandler() {
     const [errorMessage, setErrorMessage] = useState()
     const [authProvider,setAuthProvider] = useState()
 
-    const [signInWithGoogle, , , googleSignInError = error] = useSignInWithGoogle(auth);
-    const [createUserWithEmailAndPassword, , signUpLoading = loading, signUpError = error] = useCreateUserWithEmailAndPassword(auth);
-    const [updateProfile, updating, updatingError = error] = useUpdateProfile(auth);
-    const [signInWithEmailAndPassword, , signInLoading = loading, signInError = error] = useSignInWithEmailAndPassword(auth);
+    const [signInWithGoogle, , , googleSignInError] = useSignInWithGoogle(auth);
+    const [createUserWithEmailAndPassword, , signUpLoading, signUpError] = useCreateUserWithEmailAndPassword(auth);
+    const [updateProfile, updating, updatingError] = useUpdateProfile(auth);
+    const [signInWithEmailAndPassword, , signInLoading, signInError] = useSignInWithEmailAndPassword(auth);
 
     const messageHandler = (error) =>{
         const userMessage = error?.message
@@ -39,6 +39,7 @@ export default function useAuthProviderHandler() {
     useEffect(() => {
         switch (authProvider) {
             case 'signUp':
+                console.log('signUpError',signUpError);
                 messageHandler(signUpError)
                 break;
             case 'signIn':
