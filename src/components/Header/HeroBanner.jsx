@@ -27,7 +27,7 @@ export default function HeroBanner({ home, randomUser = false }) {
             </div>
             {
               randomUser || (
-                <div className='absolute left-1/3 bottom-3 md:left-auto md:bottom-8 md:right-10'>
+                <div className='absolute left-1/2 -translate-x-2/4  bottom-3 md:left-auto md:bottom-8 md:right-10'>
                   <button
                     type="button"
                     className="w-32 group flex items-center gap-1 py-2 px-4 border hover:border-transparent text-sm font-medium rounded-md text-white  hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
