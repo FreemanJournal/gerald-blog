@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import auth from '../utilities/firebase.init';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function useAuthProviderHandler() {
-    let error, loading;
     const [errorMessage, setErrorMessage] = useState()
     const [authProvider,setAuthProvider] = useState()
+    const [authLoading,setAuthLoading] = useState(false);
 
-    const [signInWithGoogle, , , googleSignInError] = useSignInWithGoogle(auth);
+    const [signInWithGoogle, , googleSignInLoading, googleSignInError] = useSignInWithGoogle(auth);
     const [createUserWithEmailAndPassword, , signUpLoading, signUpError] = useCreateUserWithEmailAndPassword(auth);
     const [updateProfile, updating, updatingError] = useUpdateProfile(auth);
     const [signInWithEmailAndPassword, , signInLoading, signInError] = useSignInWithEmailAndPassword(auth);
@@ -16,22 +17,22 @@ export default function useAuthProviderHandler() {
         const userMessage = error?.message
         switch (userMessage) {
             case 'Firebase: Password should be at least 6 characters (auth/weak-password).':
-                setErrorMessage('Password should be at least 6 characters long.')
+                toast.error('Password should be at least 6 characters long.')
                 break;
             case 'Firebase: Error (auth/email-already-in-use).':
-                setErrorMessage('This email is used once.')
+                toast.error('This email is used once.')
                 break;
             case 'Firebase: Error (auth/wrong-password).':
-                setErrorMessage('Oops,looks like password is incorrect.')
+                toast.error('Oops,looks like password is incorrect.')
                 break;
             case 'Firebase: Error (auth/user-not-found).':
-                setErrorMessage('Please give valid account info.')
+                toast.error('Please give valid account info.')
                 break;
             case 'Firebase: Error (auth/operation-not-allowed)':
-                setErrorMessage('Please consider another signIn/signUp option.')
+                toast.error('Please consider another signIn/signUp option.')
                 break;
             default:
-                setErrorMessage(userMessage)
+                toast.error(userMessage)
                 break;
         }
     }
@@ -59,5 +60,5 @@ export default function useAuthProviderHandler() {
    
 
 
-    return {createUserWithEmailAndPassword,updateProfile,signInWithEmailAndPassword,signInWithGoogle,errorMessage,setAuthProvider}
+    return {createUserWithEmailAndPassword,updateProfile,signInWithEmailAndPassword,signInWithGoogle,errorMessage,authLoading,setAuthProvider}
 }

@@ -37,7 +37,7 @@ export default function Settings() {
       <form className="" onSubmit={onSubmitHandler}>
         <input type="hidden" name="remember" defaultValue="true" />
         <div className=" flex flex-col gap-5">
-          <div>
+          {/* <div>
             <label htmlFor="imgUrl" className="">
               Profile Picture url
             </label>
@@ -51,7 +51,7 @@ export default function Settings() {
               placeholder="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
               ref={userImgUrl}
             />
-          </div>
+          </div> */}
           <div>
             <label htmlFor="username" className="">
               User Name
@@ -111,6 +111,24 @@ export default function Settings() {
               ref={userPassword}
             />
           </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Photo</label>
+            <div className="mt-1 flex items-center">
+              <span className="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              </span>
+              <label
+                htmlFor='file-upload'
+                className="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 "
+              >
+               <span>Change</span>
+              <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+              </label>
+              
+            </div>
+          </div>
 
 
         </div>
@@ -122,6 +140,7 @@ export default function Settings() {
             Update Setting
           </button>
         </div>
+
       </form>
       <div className="flex flex-col w-72 md:w-auto mx-auto">
         <div className="flex gap-3 justify-center items-center">
@@ -134,7 +153,7 @@ export default function Settings() {
         </div>
 
         <button onClick={() => {
-          
+
           signOut(auth)
         }}
           className=" flex w-44 mx-auto gap-1 justify-center items-center font-semibold border border-zinc-400 py-2 px-10 shadow-md rounded-md  text-emerald-600 hover:text-emerald-500" >

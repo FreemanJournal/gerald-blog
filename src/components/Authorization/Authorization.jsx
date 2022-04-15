@@ -4,11 +4,12 @@ import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuthProviderHandler from '../../hooks/useAuthProviderHandler';
 import auth from '../../utilities/firebase.init';
+import { ToastContainer, toast } from 'react-toastify';
 export default function Authorization({ signIn }) {
   const [user, loading, error] = useAuthState(auth);
-  console.log('user', user);
 
-  const { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, signInWithGoogle, errorMessage, setAuthProvider } = useAuthProviderHandler()
+  const { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, signInWithGoogle, errorMessage, authLoading, setAuthProvider } = useAuthProviderHandler()
+
 
 
   // Form Data
@@ -25,18 +26,19 @@ export default function Authorization({ signIn }) {
     }
     if (signIn) {
       const { email, password } = formData
-      signInWithEmailAndPassword(email, password)
       setAuthProvider('signIn')
+      signInWithEmailAndPassword(email, password) 
     } else {
       const { username, email, password } = formData
+      console.log('formData',formData);
+      setAuthProvider('signUp')
       createUserWithEmailAndPassword(email, password)
         .then(() => {
-          updateProfile({ displayName: username })
           setAuthProvider('updating')
+          updateProfile({ displayName: username })
         })
-      // setAuthProvider('signUp')
     }
-  }, []);
+  }, [signIn]);
 
   // Redirect
 
@@ -53,6 +55,7 @@ export default function Authorization({ signIn }) {
 
   return (
     <div className='w-96 md:w-4/12 mx-auto mt-16'>
+      <ToastContainer />
       <div className="text-center">
         <h2 className='text-4xl text-slate-600 font-semibold'>{signIn ? 'Welcome Back' : 'Welcome to Gerald Blog'}</h2>
         <Link to={signIn ? '/signUp' : '/signIn'} className='my-3 block text-emerald-500'>{signIn ? 'Need an account?' : 'Have an account?'}</Link>
@@ -107,13 +110,13 @@ export default function Authorization({ signIn }) {
           </div>
 
         </div>
-        <p>{errorMessage}</p>
+        {/* <p>{errorMessage}</p> */}
         <div>
           <button
             type="submit"
             className="w-24 group relative flex justify-center ml-auto py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-400 hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
           >
-            {signIn?'Sign In':'Sign Up'}
+            {signIn ? 'Sign In' : 'Sign Up'}
           </button>
         </div>
       </form>

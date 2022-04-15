@@ -28,9 +28,9 @@ export default function BlogCard({ post }) {
                     </button>
                 </div>
             </div>
-            <div className="para-section mt-5 hover:cursor-pointer">
+            <div className="para-section mt-5 hover:cursor-pointer" onClick={()=>navigate('/blog')}>
                 <div className="hover:underline underline-offset-4 ">
-                    <h2 className='text-3xl font-bold text-slate-600 '>{post.title}</h2>
+                    <h2 className='text-3xl font-bold text-slate-600' >{post.title}</h2>
                     <p className='text-slate-400'>join the community by creating a new implementation</p>
                 </div>
                 <div className="flex justify-between mt-5">
