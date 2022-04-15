@@ -15,8 +15,8 @@ export default function Routing() {
             <Route path='/' element={<Home/>}/>
             <Route path='/dashboard' element={<PrivateRoute><Dashboard/></PrivateRoute>}/>
             <Route path='/profile' element={<PrivateRoute><Profile/></PrivateRoute>}/>
-            <Route path='/user-profile' element={<PrivateRoute><UserProfile/></PrivateRoute>}/>
-            <Route path='/blog' element={<PrivateRoute><SingleBlog/></PrivateRoute>}/>
+            <Route path='/user-profile/:userId' element={<UserProfile/>}/>
+            <Route path='/single-blog/:blogId' element={<SingleBlog/>}/>
             <Route path='/signIn' element={<Authorization signIn/>}/>
             <Route path='/signUp' element={<Authorization signIn={false}/>}/>
         </Routes>

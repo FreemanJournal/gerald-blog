@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "img": "https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        "userId": 1,
+        "blogWriter": "Rizèl Scarlett",
+        "date": "November 24,2021",
+        "title": "Why Use GitHub Copilot And Copilot Labs: Practical Use Cases for the AI Pair Programmer",
+        "description": "Even though I didn't work at GitHub when they announced Copilot, I remember it piqued my interest. Perhaps, I was mostly excited because it was new and shiny.(Also, because I love predictive text in other environments like writing emails, why not in my code editor?) When I received access to the feature, I realized two things:It’s not magic. GitHub Copilot can’t read my mind, and it will not always spit out perfectly well-written, up-to-date code.It’s not magic. GitHub Copilot can’t read my mind, and it will not always spit out perfectly well-written, up-to-date code.Copilot increases my confidence and velocity as a programmer.For me, the value of Copilot is that I spend less time stressing over syntax, which leaves more time for solving problems.",
+        "tags": [
+            "github",
+            "programming",
+            "productivity",
+            "vscode"
+        ],
+        "commentCount": 3,
+        "likeCount": 16
+    },
+    {
+        "id": 2,
+        "img": "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        "userId": 2,
+        "blogWriter": "Sm0ke",
+        "date": "April 14,2021",
+        "title": "React Forms — Formik vs. Hook-Form vs. Final-Form",
+        "description": "Forms are a crucial part of every application, from signing up, logging in, or collecting a survey from our users. Forms may seem simple but they are not. This article aims to provide a comparison of the top most-used React Forms with pros, cons, and code samples: Formik, React-Hook-Form and React-Final-Form. For newcomers, React is a super popular JS library for coding interactive user interfaces baked by Facebook.",
+        "tags": [
+            "react",
+            "webDev",
+            "tutorials"
+        ],
+        "commentCount": 2,
+        "likeCount": 18
+    },
+    {
+        "id": 3,
+        "img": "https://mdbcdn.b-cdn.net/img/new/avatars/2.webp",
+        "userId": 3,
+        "blogWriter": "Shahed Nasser",
+        "date": "November 13,2021",
+        "title": "Medusa, the open source Shopify alternative, passed 10K stars on GitHub!",
+        "description": "If you're not familiar with Medusa, it's an open source headless commerce platform that has been gaining a lot of popularity in the past 9 months.Medusa aims to provide a good developer experience with a lot of customization capabilities that eliminate the need for hacky solutions. This also allows merchants to pick and choose with the services and features they want as part of their ecosystem.",
+        "tags": [
+            "news",
+            "openSources",
+            "showDev",
+            "github"
+        ],
+        "commentCount": 5,
+        "likeCount": 28
+    }
+]

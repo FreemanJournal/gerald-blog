@@ -42,7 +42,19 @@ export default function NewComments() {
 
             </div>
             <div className='py-2 px-2 flex items-center bg-zinc-100'>
-                <UserIntro />
+                <div className="relative">
+                    <dt>
+                        <div className="absolute flex items-center justify-center h-10 w-10 rounded-md text-white">
+                            <img
+                                src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                                className="rounded-full w-32"
+                                alt="Avatar"
+                            />
+                        </div>
+                        <p className="ml-16 text-sm font-medium text-emerald-400 cursor-pointer hover:underline" onClick={() => navigate('/user-profile')}>Rizèl Scarlett</p>
+                    </dt>
+                    <dd className=" ml-16 text-xs text-slate-400">April 14,2021</dd>
+                </div>
                 <button
                     type="submit"
                     className="w-32 group relative flex justify-center ml-auto py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-400 hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
