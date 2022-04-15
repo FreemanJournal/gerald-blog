@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react';
-export default function BlogWriting() {
+export default function BlogForm() {
 
   // Form Data
   const blogTitle = useRef();

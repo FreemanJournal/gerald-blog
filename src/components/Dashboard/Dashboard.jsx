@@ -1,8 +1,8 @@
 import { Tab } from '@headlessui/react'
 import { useState } from 'react'
 import { BsFillArrowRightCircleFill, BsPencilSquare, BsSliders } from 'react-icons/bs'
+import BlogForm from '../BlogForm/BlogForm'
 import Settings from '../Settings/Settings'
-import BlogWriting from '../WriteBlog/BlogWriting'
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -44,7 +44,7 @@ export default function Dashboard() {
                                     'focus:outline-none  ring-white ring-opacity-60'
                                 )}
                             >
-                              <BlogWriting/>
+                              <BlogForm/>
 
                             </Tab.Panel>
                             <Tab.Panel

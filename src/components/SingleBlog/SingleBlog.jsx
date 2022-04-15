@@ -3,10 +3,10 @@ import { BsHeart } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import Comments from './Comments';
 
-export default function Blog() {
+export default function SingleBlog() {
     const navigate = useNavigate();
     return (
-        <div>
+        <div className='container mx-auto'>
             <div className="intro grid grid-cols-10 mt-10">
                 <div className="blogCard mb-10 pb-5 col-span-7">
                     <div className="intro flex justify-between">
