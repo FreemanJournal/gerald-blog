@@ -9,7 +9,7 @@ export default function SingleBlog() {
     const navigate = useNavigate();
     const { blogId } = useParams();
     const { globalData } = useContext(GlobalContext)
-    const singlePost = globalData.find((post) => post.id === +blogId)
+    const singlePost = globalData.find((post) => post.postId === +blogId)
 
     const { id, img, blogWriter, date, title, description, tags, commentCount, likeCount } = singlePost || {}
 

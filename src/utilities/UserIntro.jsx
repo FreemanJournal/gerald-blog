@@ -14,7 +14,7 @@ export default function UserIntro({ img, blogWriter, date }) {
                         alt="Avatar"
                     />
                 </div>
-                <p className="ml-16 text-sm font-medium text-emerald-400 cursor-pointer hover:underline" onClick={() => navigate('/user-profile')}>{blogWriter}</p>
+                <p className="ml-16 text-sm font-medium text-emerald-400 cursor-pointer hover:underline" onClick={() => navigate(`/user-profile/${blogWriter}`)}>{blogWriter}</p>
             </div>
             <p className=" ml-16 text-xs text-slate-400">{date}</p>
         </div>

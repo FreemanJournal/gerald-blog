@@ -6,7 +6,7 @@ export const GlobalProvider = ({children}) => {
     const [globalData, setGlobalData] = useState([]);
 
     useEffect(() => {
-        fetch('/dataset/data.json')
+        fetch('/dataset/postData.json')
             .then(res => res.json())
             .then(data => setGlobalData(data))
     }, [])

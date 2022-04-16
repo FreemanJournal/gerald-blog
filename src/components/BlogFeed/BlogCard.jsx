@@ -6,11 +6,11 @@ import UserIntro from '../../utilities/UserIntro';
 export default function BlogCard({ post }) {
     const navigate = useNavigate();
 
-    const { id, img,userId, blogWriter, date, title, description, tags, commentCount, likeCount } = post || {}
+    const { postId, img, blogWriter, date, title, description, tags, commentCount, likeCount } = post || {}
     return (
         <div className="blogCard mb-10 pb-5 border-b-2 border-slate-300">
             <div className="intro flex justify-between">
-                <UserIntro img={img} blogWriter={blogWriter} date={date} userId={userId}/>
+                <UserIntro img={img} blogWriter={blogWriter} date={date}/>
                
                 <div className="">
                     <button type="button" className="py-1 px-6  bg-transparent text-emerald-400 font-medium text-sm leading-tight uppercase rounded border border-emerald-400 focus:outline-none focus:ring-0 transition duration-150 ease-in-out flex items-center justify-center">
@@ -19,7 +19,7 @@ export default function BlogCard({ post }) {
                     </button>
                 </div>
             </div>
-            <div className="para-section mt-5 hover:cursor-pointer" onClick={() => navigate(`/single-blog/${id}`)}>
+            <div className="para-section mt-5 hover:cursor-pointer" onClick={() => navigate(`/single-blog/${postId}`)}>
                 <div className="hover:underline underline-offset-4 ">
                     <h2 className='text-3xl font-bold text-slate-600' >{title}</h2>
                     {/* <p className='text-slate-400'>join the community by creating a new implementation</p> */}

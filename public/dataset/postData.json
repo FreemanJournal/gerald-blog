@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "postId": 1,
         "img": "https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
         "userId": 1,
         "blogWriter": "Rizèl Scarlett",
@@ -17,7 +17,7 @@
         "likeCount": 16
     },
     {
-        "id": 2,
+        "postId": 2,
         "img": "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
         "userId": 2,
         "blogWriter": "Sm0ke",
@@ -33,7 +33,7 @@
         "likeCount": 18
     },
     {
-        "id": 3,
+        "postId": 3,
         "img": "https://mdbcdn.b-cdn.net/img/new/avatars/2.webp",
         "userId": 3,
         "blogWriter": "Shahed Nasser",
@@ -48,5 +48,54 @@
         ],
         "commentCount": 5,
         "likeCount": 28
+    },
+    {
+        "postId": 4,
+        "img": "https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        "userId": 1,
+        "blogWriter": "Rizèl Scarlett",
+        "date": "April 16,2021",
+        "title": "What's a fun group activity that we could do during CodeLand 2022?",
+        "description": "In the past, we had a fun little game hosted by Twilio called Nom Nom where we split everybody into 2 teams and gave folks control over 2 Roomba vacuums — the first team to vacuum up the other teams confetti was declared winner. It's wonderfully chaotic and as goofy as it sounds, but hopefully easy to understand how fun it is when you watch the video",
+        "tags": [
+            "discuss",
+            "codeLand"
+        ],
+        "commentCount": 3,
+        "likeCount": 11
+    },
+    {
+        "postId": 5,
+        "img": "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        "userId": 2,
+        "blogWriter": "Sm0ke",
+        "date": "April 16,2021",
+        "title": "How does @import works in CSS? What is the pros and cons.",
+        "description": "We all must have used @import in our css files for importing one stylesheet to another. While working on large projects we often make use of imports to make use of same styles in different views.The @import statement has some pros and cons related to it. Let's first discuss how the import works over using the <link> element in HTML file.I personally prefer to use media over text to understand any concepts and like using them in my articles as well",
+        "tags": [
+            "css",
+            "webDev",
+            "tutorials"
+        ],
+        "commentCount": 2,
+        "likeCount": 9
+    }
+    ,
+    {
+        "postId": 6,
+        "img": "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        "userId": 2,
+        "blogWriter": "Sm0ke",
+        "date": "April 14,2021",
+        "title": "Unpopular Opinion: Years worked != experience level.",
+        "description": "As a Hiring Manager, if you told me you had 5 years of experience but only documented 2-3 calendar years on your resume, I would hold that against you in evaluating you as a candidate. I agree with the premise of your argument - that time doesn't necessarily equate to experience, but my consensus tends to focus on the C-players rather than the A-players. C-players may have 5 years working at a company, but if they haven't grown their skillset, their 'experience' is likely more on par with junior level engineers than a mid or senior.",
+        "tags": [
+            "discuss",
+            "webDev",
+            "tutorials",
+            "career"
+        ],
+        "commentCount": 2,
+        "likeCount": 10
     }
 ]
