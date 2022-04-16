@@ -11,7 +11,7 @@ export default function UserProfile() {
    
     return (
         <div>
-            <HeroBanner randomUser writerName={writerName}/>
+            <HeroBanner randomUser writerName={writerName} userImg={userBlogs[0]?.img}/>
             <div className="container">
                 <Feed randomUser userBlogs={userBlogs}/>
             </div>

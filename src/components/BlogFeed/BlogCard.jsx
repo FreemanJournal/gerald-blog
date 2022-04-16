@@ -22,7 +22,7 @@ export default function BlogCard({ post }) {
             <div className="para-section mt-5 hover:cursor-pointer" onClick={() => navigate(`/single-blog/${postId}`)}>
                 <div className="hover:underline underline-offset-4 ">
                     <h2 className='text-3xl font-bold text-slate-600' >{title}</h2>
-                    {/* <p className='text-slate-400'>join the community by creating a new implementation</p> */}
+                    <p className='text-slate-400 truncate mt-2'>{description}</p>
                 </div>
                 <div className="flex justify-between mt-5">
                     <p className='text-slate-400 hover:text-slate-600'>Read more...</p>

@@ -5,11 +5,11 @@ import auth from '../../utilities/firebase.init';
 import { BsGear } from 'react-icons/bs'
 import { GlobalContext } from '../../context/GlobalContext';
 
-export default function HeroBanner({ home, randomUser = false, writerName = "" }) {
+export default function HeroBanner({ home, randomUser = false, writerName = "", userImg = "" }) {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate()
- 
- 
+
+
   return (
     <>
       {
@@ -24,16 +24,16 @@ export default function HeroBanner({ home, randomUser = false, writerName = "" }
         ) : (
           <div className="bg-emerald-400 headerShadow h-72 flex items-center relative">
             <div className="container flex flex-col  justify-center items-center">
-              <div className="w-32 h-32"><img src={user ? `${user?.photoURL}` : '/images/profile.jpg'} alt="Profile" className='w-full h-full rounded-full object-cover' /></div>
-              <h1 className='text-white font-bold text-xl md:text-4xl drop-shadow-md capitalize'>{randomUser ? writerName : user?.displayName}</h1>
-              <p className='text-white md:text-2xl my-5 tracking-wider'>{randomUser ? 'No bio' : 'I am a javascript developer and  a good human being.'}</p>
+              <div className="w-32 h-32"><img src={user ? `${user?.photoURL}` : randomUser ? `${userImg}` : '/images/profile.jpg'} alt="Profile" className='w-full h-full rounded-full object-cover' /></div>
+              <h1 className='text-white font-bold mt-5 text-xl md:text-4xl drop-shadow-md capitalize'>{randomUser ? writerName : user?.displayName}</h1>
+              <p className='text-white md:text-2xl my-5 tracking-wider'>{randomUser ? '' : 'I am a javascript developer and  a good human being.'}</p>
             </div>
             {randomUser ?
               <div className='absolute left-1/2 -translate-x-2/4  bottom-3 md:left-auto md:bottom-8 md:right-10'>
                 <button
                   type="button"
                   className="w-32 group  py-2 px-4 border hover:border-transparent text-sm font-medium rounded-md text-white  hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                  
+
                 >
                   Follow
                 </button>
