@@ -15,11 +15,15 @@ export default function useAuthProviderHandler() {
 
     const messageHandler = (error) =>{
         const userMessage = error?.message
+        console.log('userMessage',userMessage);
         switch (userMessage) {
             case 'Firebase: Password should be at least 6 characters (auth/weak-password).':
                 toast.error('Password should be at least 6 characters long.')
                 break;
             case 'Firebase: Error (auth/email-already-in-use).':
+                toast.error('This email is used once.')
+                break;
+            case 'No user is logged in':
                 toast.error('This email is used once.')
                 break;
             case 'Firebase: Error (auth/wrong-password).':

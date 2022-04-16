@@ -11,15 +11,17 @@ function classNames(...classes) {
 export default function Feed({ home, randomUser = false, userBlogs}) {
     const { globalData } = useContext(GlobalContext)
     const [user, loading, error] = useAuthState(auth);
-    const [feedData, setFeedData] = useState(globalData);
-    console.log('userblogs',userBlogs);
+    const [feedData, setFeedData] = useState([...globalData]);
+
+    console.log('feedData',globalData);
+
     useEffect(() => {
         if (randomUser) {
             setFeedData(userBlogs)
         }else{
             setFeedData(globalData)
         }
-    }, [randomUser])
+    }, [randomUser,globalData])
 
     return (
         <div className="px-2 py-16 sm:px-0">

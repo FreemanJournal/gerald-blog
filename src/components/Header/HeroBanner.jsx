@@ -8,7 +8,13 @@ import { GlobalContext } from '../../context/GlobalContext';
 export default function HeroBanner({ home, randomUser = false, writerName = "", userImg = "" }) {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate()
-
+  console.log('user?.photoURL', user?.photoURL);
+  let profileImg;
+  if (user?.photoURL && !randomUser) {
+    profileImg = user?.photoURL + ''
+  } else if (!user?.photoURL && !randomUser) {
+    profileImg = '/images/profile.jpg'
+  }
 
   return (
     <>
@@ -24,7 +30,8 @@ export default function HeroBanner({ home, randomUser = false, writerName = "", 
         ) : (
           <div className="bg-emerald-400 headerShadow h-72 flex items-center relative">
             <div className="container flex flex-col  justify-center items-center">
-              <div className="w-32 h-32"><img src={user ? `${user?.photoURL}` : randomUser ? `${userImg}` : '/images/profile.jpg'} alt="Profile" className='w-full h-full rounded-full object-cover' /></div>
+              <div className="w-32 h-32"><img src={randomUser ? `${userImg}` : profileImg} alt="Profile" className='w-full h-full rounded-full object-cover' /></div>
+              {/* <div className="w-32 h-32"><img src={user?.photoURL && !randomUser ? `${user?.photoURL}`: '/images/profile.jpg' || randomUser ? `${userImg}` : '/images/profile.jpg'} alt="Profile" className='w-full h-full rounded-full object-cover' /></div> */}
               <h1 className='text-white font-bold mt-5 text-xl md:text-4xl drop-shadow-md capitalize'>{randomUser ? writerName : user?.displayName}</h1>
               <p className='text-white md:text-2xl my-5 tracking-wider'>{randomUser ? '' : 'I am a javascript developer and  a good human being.'}</p>
             </div>
