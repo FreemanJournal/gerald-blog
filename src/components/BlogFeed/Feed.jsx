@@ -13,7 +13,7 @@ export default function Feed({ home, randomUser = false, userBlogs}) {
     const [user, loading, error] = useAuthState(auth);
     const [feedData, setFeedData] = useState([...globalData]);
 
-    console.log('feedData',globalData);
+ 
 
     useEffect(() => {
         if (randomUser) {

@@ -5,12 +5,11 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuthProviderHandler from '../../hooks/useAuthProviderHandler';
 import auth from '../../utilities/firebase.init';
 import { ToastContainer, toast } from 'react-toastify';
+import { Helmet } from 'react-helmet-async';
 export default function Authorization({ signIn }) {
   const [user, loading, error] = useAuthState(auth);
-
+  
   const { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, signInWithGoogle, errorMessage, authLoading, setAuthProvider } = useAuthProviderHandler()
-
-
 
   // Form Data
   const userName = useRef();
@@ -55,6 +54,9 @@ export default function Authorization({ signIn }) {
 
   return (
     <div className='w-96 md:w-4/12 mx-auto mt-16'>
+      <Helmet>
+        <title>{signIn?'Sign In':'Sign Up'}</title>
+      </Helmet>
       <ToastContainer />
       <div className="text-center">
         <h2 className='text-4xl text-slate-600 font-semibold'>{signIn ? 'Welcome Back' : 'Welcome to Gerald Blog'}</h2>

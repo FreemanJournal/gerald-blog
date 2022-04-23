@@ -1,24 +1,38 @@
+import moment from 'moment';
 import React, { useCallback, useRef } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useForm } from 'react-hook-form';
+import auth from '../../utilities/firebase.init';
 export default function BlogForm() {
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const [user, loading, error] = useAuthState(auth);
 
-  // Form Data
-  const blogTitle = useRef();
-  const blogAbout = useRef();
-  const blogBody = useRef();
-  const blogTags = useRef();
+  let date = moment(new Date()).format('MMMM DD,YYYY')
 
 
-  const onSubmitHandler = useCallback((e) => {
-    e.preventDefault();
-    const formData = {
-      title: blogTitle.current?.value,
-      about: blogAbout.current?.value,
-      body: blogBody.current?.value,
-      tags: blogTags.current?.value,
 
+  const onSubmitHandler = (data) => {
+    const newArticle = {
+      ...data,
+      img: user?.photoURL || "/images/profile.jpg",
+      userId: user?.uid,
+      blogWriter: user?.displayName,
+      date: date,
+      commentCount: 0,
+      likeCount: 0
     }
-    
-  }, []);
+    console.log('newArticle', newArticle);
+    const uri = `http://localhost:5000/blog`
+    fetch(uri, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newArticle)
+    })
+      .then(res => res.json())
+      .then(result => console.log('result', result))
+  };
 
 
 
@@ -27,8 +41,8 @@ export default function BlogForm() {
 
   return (
     <div className=' mx-auto'>
-    
-      <form className="" onSubmit={onSubmitHandler}>
+
+      <form className="" onSubmit={handleSubmit(onSubmitHandler)}>
         <input type="hidden" name="remember" defaultValue="true" />
         <div className=" flex flex-col gap-5">
           <div>
@@ -43,24 +57,10 @@ export default function BlogForm() {
               required
               className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
               placeholder="Blog Title"
-              ref={blogTitle}
+              {...register("title", { required: true, maxLength: 100 })}
             />
           </div>
-          <div>
-            <label htmlFor="about" className="sr-only">
-              About
-            </label>
-            <input
-              id="about"
-              name="about"
-              type="text"
-              autoComplete="about"
-              required
-              className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
-              placeholder="What is you writing about ?"
-              ref={blogAbout}
-            />
-          </div>
+
           <div>
             <label htmlFor="blog" className="sr-only">
               Blog
@@ -69,14 +69,13 @@ export default function BlogForm() {
               id="blog"
               name="blog"
               type="textarea"
-
               required
               className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
               placeholder="Write your blog..."
-              ref={blogBody}
+              {...register("description", { required: true, maxLength: 20000 })}
             />
           </div>
-          <div>
+          {/* <div>
             <label htmlFor="tags" className="sr-only">
               Tags
             </label>
@@ -85,12 +84,11 @@ export default function BlogForm() {
               name="tags"
               type="text"
               autoComplete="tags"
-              required
               className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
               placeholder="Enter Tags"
-              ref={blogTags}
+              {...register("tags", { required: false, maxLength: 20 })}
             />
-          </div>
+          </div> */}
 
 
         </div>
@@ -99,11 +97,11 @@ export default function BlogForm() {
             type="submit"
             className="w-32 group relative flex justify-center ml-auto py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-400 hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
           >
-          Publish Blog 
+            Publish Blog
           </button>
         </div>
       </form>
-     
+
     </div>
   )
 }

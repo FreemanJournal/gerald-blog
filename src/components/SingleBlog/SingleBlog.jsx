@@ -2,16 +2,19 @@ import React, { useContext } from 'react';
 import { BsHeart } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../context/GlobalContext';
+import useSinglePost from '../../hooks/useSinglePost';
 import UserIntro from '../../utilities/UserIntro';
 import Comments from './Comments';
 
 export default function SingleBlog() {
     const navigate = useNavigate();
     const { blogId } = useParams();
-    const { globalData } = useContext(GlobalContext)
-    const singlePost = globalData.find((post) => post.postId === +blogId)
+    // const { globalData } = useContext(GlobalContext)
+   
+    // const singlePost = globalData.find((post) => post._id === blogId)
+    const {singleArticle} = useSinglePost(blogId)
 
-    const { id, img, blogWriter, date, title, description, tags, commentCount, likeCount } = singlePost || {}
+    const { _id, img, blogWriter, date, title, description, tags, commentCount, likeCount } = singleArticle || {}
 
     return (
         <div className='container mx-auto'>
@@ -27,14 +30,14 @@ export default function SingleBlog() {
                             </button>
                         </div>
                     </div>
-                    <div className="flex gap-1 mt-5">
+                    {/* <div className="flex gap-1 mt-5">
                         {tags?.map((tag, index) => (
                             <p key={index}
                                 className="px-3 rounded-full flex items-center text-slate-400 border border-slate-300  text-sm  cursor-pointer active:bg-gray-300 transition duration-300 ease">
                                 {tag}
                             </p>
                         ))}
-                    </div>
+                    </div> */}
                     <div className="para-section mt-5">
                         <div className=" select-text mb-10">
                             <h2 className='text-3xl font-bold text-slate-800 my-5'>{title}</h2>

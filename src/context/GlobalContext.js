@@ -2,15 +2,15 @@ import { createContext, useEffect, useState } from "react";
 
 export const GlobalContext = createContext();
 
-export const GlobalProvider = ({children}) => {
+export const GlobalProvider = ({ children }) => {
     const [globalData, setGlobalData] = useState([]);
-
-    useEffect(() => {
-        fetch('/dataset/postData.json')
+    const getData = () => {
+        fetch('http://localhost:5000/blogs')
             .then(res => res.json())
             .then(data => setGlobalData(data))
-    }, [])
-    return <GlobalContext.Provider value={{globalData}}>
+    }
+    useEffect(getData, [])
+    return <GlobalContext.Provider value={{ globalData,setGlobalData }}>
         {children}
     </GlobalContext.Provider>
 }

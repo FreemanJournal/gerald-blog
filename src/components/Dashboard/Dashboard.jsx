@@ -1,5 +1,6 @@
 import { Tab } from '@headlessui/react'
 import { useState } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { BsFillArrowRightCircleFill, BsPencilSquare, BsSliders } from 'react-icons/bs'
 import BlogForm from '../BlogForm/BlogForm'
 import Settings from '../Settings/Settings'
@@ -9,10 +10,13 @@ function classNames(...classes) {
 
 export default function Dashboard() {
 
-    let [categories] = useState(['blog','setting'])
+    let [categories] = useState(['blog', 'setting'])
 
     return (
         <div className=" py-16 sm:px-0">
+            <Helmet>
+                <title>Dashboard</title>
+            </Helmet>
             <div className="container">
                 <Tab.Group>
                     <div className="grid md:grid-cols-12 gap-10">
@@ -44,7 +48,7 @@ export default function Dashboard() {
                                     'focus:outline-none  ring-white ring-opacity-60'
                                 )}
                             >
-                              <BlogForm/>
+                                <BlogForm />
 
                             </Tab.Panel>
                             <Tab.Panel
@@ -53,8 +57,8 @@ export default function Dashboard() {
                                     'focus:outline-none  ring-white ring-opacity-60'
                                 )}
                             >
-                               
-                               <Settings/>
+
+                                <Settings />
 
                             </Tab.Panel>
                         </Tab.Panels>
