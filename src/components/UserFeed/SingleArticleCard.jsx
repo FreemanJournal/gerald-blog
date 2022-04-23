@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import UserIntro from '../../utilities/UserIntro';
 import ManageBlog from '../ManageBlog/ManageBlog';
 
-export default function BlogCard({ post }) {
+export default function SingleArticleCard({ post }) {
     const navigate = useNavigate();
     const [manage, setManage] = useState(false);
 

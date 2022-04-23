@@ -1,8 +1,8 @@
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
-import Feed from '../../components/BlogFeed/Feed'
-import Tags from '../../components/BlogFeed/Tags'
+
 import HeroBanner from '../../components/Header/HeroBanner'
+import Feed from '../../components/UserFeed/Feed'
 
 export default function Home() {
   return (

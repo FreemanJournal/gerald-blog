@@ -2,7 +2,8 @@ import { Tab } from '@headlessui/react'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { BsFillArrowRightCircleFill, BsPencilSquare, BsSliders } from 'react-icons/bs'
-import BlogForm from '../BlogForm/BlogForm'
+import CreateArticle from '../CreateArticle/CreateArticle'
+
 import Settings from '../Settings/Settings'
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -48,7 +49,7 @@ export default function Dashboard() {
                                     'focus:outline-none  ring-white ring-opacity-60'
                                 )}
                             >
-                                <BlogForm />
+                                <CreateArticle />
 
                             </Tab.Panel>
                             <Tab.Panel

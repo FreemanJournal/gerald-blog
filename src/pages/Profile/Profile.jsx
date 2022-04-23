@@ -1,8 +1,9 @@
 import { Tab } from '@headlessui/react'
 import { useState } from 'react'
 import { GiSelfLove } from 'react-icons/gi'
-import Feed from '../../components/BlogFeed/Feed'
+
 import HeroBanner from '../../components/Header/HeroBanner'
+import Feed from '../../components/UserFeed/Feed'
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }

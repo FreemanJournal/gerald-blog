@@ -63,13 +63,13 @@ export default function UpdateModal({ isOpen, setIsOpen }) {
                                                 Felis eu non in aliquam egestas placerat. Eget maecenas ornare venenatis lacus nunc, sit arcu. Nam pharetra faucibus eget facilisis pulvinar eu sapien turpis at. Nec aliquam aliquam blandit eu ipsum.
                                             </p>
                                         </div>
-                                        <div className="flex items-center gap-3 p-4 mt-5 border-t">
-                                            <button className="px-6 py-2 text-white bg-indigo-600 rounded-md outline-none ring-offset-2 ring-indigo-600 focus:ring-2"
+                                        <div className="flex items-center justify-end gap-3 p-4 mt-5 border-t">
+                                            <button className="px-6 py-2 text-white bg-emerald-400 rounded-md outline-none"
                                                 onClick={() => setIsOpen(false)}
                                             >
-                                                Accept
+                                                Update
                                             </button>
-                                            <button className="px-6 py-2 text-gray-800 border rounded-md outline-none ring-offset-2 ring-indigo-600 focus:ring-2"
+                                            <button className="px-6 py-2 text-gray-800 border rounded-md outline-none"
                                                 onClick={() => setIsOpen(false)}
                                             >
                                                 Cancel

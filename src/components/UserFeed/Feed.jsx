@@ -3,7 +3,8 @@ import { useContext, useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { GlobalContext } from '../../context/GlobalContext'
 import auth from '../../utilities/firebase.init'
-import BlogCard from './BlogCard'
+import SingleArticleCard from './SingleArticleCard'
+
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -63,7 +64,7 @@ export default function Feed({ home, randomUser = false, userBlogs}) {
                         )}
                     >
                         {
-                            feedData?.map((post, index) => <BlogCard post={post} key={index} />)
+                            feedData?.map((post, index) => <SingleArticleCard post={post} key={index} />)
                         }
 
                     </Tab.Panel>
@@ -74,7 +75,7 @@ export default function Feed({ home, randomUser = false, userBlogs}) {
                         )}
                     >
                         {
-                            globalData?.map((post, index) => <BlogCard post={post} key={index} />)
+                            globalData?.map((post, index) => <SingleArticleCard post={post} key={index} />)
                         }
 
                     </Tab.Panel>

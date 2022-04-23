@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
-import Feed from '../../components/BlogFeed/Feed'
 import HeroBanner from '../../components/Header/HeroBanner'
+import Feed from '../../components/UserFeed/Feed';
 import { GlobalContext } from '../../context/GlobalContext';
 
 export default function UserProfile() {

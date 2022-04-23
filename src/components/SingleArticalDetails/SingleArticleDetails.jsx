@@ -6,7 +6,7 @@ import useSinglePost from '../../hooks/useSinglePost';
 import UserIntro from '../../utilities/UserIntro';
 import Comments from './Comments';
 
-export default function SingleBlog() {
+export default function SingleArticleDetails() {
     const navigate = useNavigate();
     const { blogId } = useParams();
     // const { globalData } = useContext(GlobalContext)

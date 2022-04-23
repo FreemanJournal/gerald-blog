@@ -3,7 +3,7 @@ import React, { useCallback, useRef } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import auth from '../../utilities/firebase.init';
-export default function BlogForm() {
+export default function CreateArticle() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const [user, loading, error] = useAuthState(auth);
 
