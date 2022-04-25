@@ -16,11 +16,11 @@ export default function SingleArticleCard({ post }) {
                 <UserIntro img={img} blogWriter={blogWriter} date={date}/>
                
                 <div className="flex gap-2">
-                    <button type="button" className="py-1 px-6  bg-transparent text-emerald-400 font-medium text-sm leading-tight uppercase rounded border border-emerald-400 focus:outline-none focus:ring-0 transition duration-150 ease-in-out flex items-center justify-center">
+                    <button type="button" className="py-1 px-6  bg-transparent hover:bg-emerald-400 hover:text-white text-emerald-400 font-medium text-sm leading-tight uppercase rounded border border-emerald-400 focus:outline-none focus:ring-0 transition duration-150 ease-in-out flex items-center justify-center group">
                         <BsHeart />
-                        <span className="inline-block text-base py-1 px-1.5 leading-none text-center whitespace-nowrap align-baseline font-bold text-emerald-400 rounded ml-2">{likeCount}</span>
+                        <span className="inline-block text-base py-1 px-1.5 group-hover:text-white leading-none text-center whitespace-nowrap align-baseline font-bold text-emerald-400 rounded ml-2">{likeCount}</span>
                     </button>
-                    <button type="button" className="py-1 px-6  bg-transparent text-pink-400 font-medium text-sm leading-tight uppercase rounded border border-pink-400 focus:outline-none focus:ring-0 transition duration-150 ease-in-out flex items-center justify-center" onClick={()=>setManage(prev=>!prev)}>
+                    <button type="button" className="py-1 px-6  bg-transparent hover:bg-pink-400 hover:text-white text-pink-400 font-medium text-sm leading-tight uppercase rounded border border-pink-400 focus:outline-none focus:ring-0 transition duration-150 ease-in-out flex items-center justify-center" onClick={()=>setManage(prev=>!prev)}>
                         <FiEdit />
                         
                     </button>

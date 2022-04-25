@@ -1,14 +1,25 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-import './UpdateModal.css';
-export default function UpdateModal({ isOpen, setIsOpen }) {
+import { useForm } from 'react-hook-form';
+export default function UpdateModal({ isOpen, setIsOpen, id }) {
     function closeModal() {
         setIsOpen(false)
     }
-
-    function openModal() {
-        setIsOpen(true)
-    }
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  
+    const onUpdateHandler = (data) => {
+        setIsOpen(false);
+        const uri = `http://localhost:5000/blog/${id}`
+        fetch(uri, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(result => console.log('result', result))
+    };
 
     return (
         isOpen ? (
@@ -45,7 +56,7 @@ export default function UpdateModal({ isOpen, setIsOpen }) {
                                     <div className="relative w-full max-w-lg mx-auto bg-white rounded-md shadow-lg">
                                         <div className="flex items-center justify-between p-4 border-b">
                                             <h4 className="text-lg font-medium text-gray-800">
-                                                Terms and agreements
+                                                Update Article
                                             </h4>
                                             <button className="p-2 text-gray-400 rounded-md hover:bg-gray-100"
                                                 onClick={() => setIsOpen(false)}
@@ -56,25 +67,57 @@ export default function UpdateModal({ isOpen, setIsOpen }) {
                                             </button>
                                         </div>
                                         <div className="space-y-2 p-4 mt-3 text-[15.5px] leading-relaxed text-gray-500">
-                                            <p>
-                                                Commodo eget a et dignissim dignissim morbi vitae, mi. Mi aliquam sit ultrices enim cursus. Leo sapien, pretium duis est eu volutpat interdum eu non. Odio eget nullam elit laoreet. Libero at felis nam at orci venenatis rutrum nunc. Etiam mattis ornare pellentesque iaculis enim.
-                                            </p>
-                                            <p>
-                                                Felis eu non in aliquam egestas placerat. Eget maecenas ornare venenatis lacus nunc, sit arcu. Nam pharetra faucibus eget facilisis pulvinar eu sapien turpis at. Nec aliquam aliquam blandit eu ipsum.
-                                            </p>
+                                            <form className="" onSubmit={handleSubmit(onUpdateHandler)}>
+                                                <input type="hidden" name="remember" defaultValue="true" />
+                                                <div className=" flex flex-col gap-5">
+                                                    <div>
+                                                        <label htmlFor="title" className="sr-only">
+                                                            Title
+                                                        </label>
+                                                        <input
+                                                            id="title"
+                                                            name="title"
+                                                            type="text"
+                                                            autoComplete="title"
+                                                            className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
+                                                            placeholder="Blog Title"
+                                                            {...register("title", { required: true, maxLength: 100 })}
+                                                        />
+                                                    </div>
+
+                                                    <div>
+                                                        <label htmlFor="blog" className="sr-only">
+                                                            Blog
+                                                        </label>
+                                                        <textarea
+                                                            id="blog"
+                                                            name="blog"
+                                                            type="textarea"              
+                                                            className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
+                                                            placeholder="Write your blog..."
+                                                            {...register("description", { required: true, maxLength: 20000 })}
+                                                        />
+                                                    </div>
+
+
+
+                                                </div>
+                                                <div className="flex items-center justify-end gap-3 p-4 mt-5 border-t">
+                                                    <button type='submit' className="px-6 py-2 text-white bg-emerald-400 rounded-md outline-none"
+                                                    
+                                                    >
+                                                        Update
+                                                    </button>
+                                                    <button className="px-6 py-2 text-gray-800 border rounded-md outline-none"
+                                                        onClick={() => setIsOpen(false)}
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </div>
+
+                                            </form>
                                         </div>
-                                        <div className="flex items-center justify-end gap-3 p-4 mt-5 border-t">
-                                            <button className="px-6 py-2 text-white bg-emerald-400 rounded-md outline-none"
-                                                onClick={() => setIsOpen(false)}
-                                            >
-                                                Update
-                                            </button>
-                                            <button className="px-6 py-2 text-gray-800 border rounded-md outline-none"
-                                                onClick={() => setIsOpen(false)}
-                                            >
-                                                Cancel
-                                            </button>
-                                        </div>
+
                                     </div>
                                 </div>
                             </Transition.Child>

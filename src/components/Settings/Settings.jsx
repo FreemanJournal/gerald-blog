@@ -1,30 +1,56 @@
 import { signOut } from 'firebase/auth';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import auth from '../../utilities/firebase.init';
 import { IoIosLogOut } from 'react-icons/io'
+import { useForm } from 'react-hook-form';
+import { toast, ToastContainer } from 'react-toastify';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import axios from 'axios';
+import { async } from '@firebase/util';
 
 export default function Settings() {
+  const [user, loading, error] = useAuthState(auth);
+  const [profileData, setProfileData] = useState({});
 
-  // Form Data
-  const userImgUrl = useRef();
-  const userName = useRef();
-  const userBio = useRef();
-  const userEmail = useRef();
-  const userPassword = useRef();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    defaultValues: {
+      username: profileData?.username || user?.displayName,
+      email_address: user?.email,
+      shortBio: profileData?.shortBio || ''
+    }
+  });
 
-
-  const onSubmitHandler = useCallback((e) => {
-    e.preventDefault();
-    const formData = {
-      imgUrl: userImgUrl.current?.value,
-      username: userName.current?.value,
-      bio: userBio.current?.value,
-      email: userEmail.current?.value,
-      password: userPassword.current?.value,
+  useEffect(() => {
+    const getUser = async () => {
+      const uri = `${process.env.REACT_APP_uri}/user?email=${user?.email}`
+      const result = await axios.get(uri)
+      setProfileData(result.data)
 
     }
+    getUser()
+  }, [user])
 
-  }, []);
+  useEffect(() => {
+    reset(profileData)
+  }, [profileData])
+
+ 
+  const onSubmitHandler = (value) => {
+    // const uri = `${process.env.REACT_APP_uri}/user`
+    // console.log('http://localhost:5000/user',uri);
+    fetch(`http://localhost:5000/user`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(value)
+    })
+      .then(res => res.json())
+      .then(result => toast.info("User Info updated..."))
+      .catch((error)=>toast.error(error))
+
+
+  };
 
 
 
@@ -34,7 +60,8 @@ export default function Settings() {
   return (
     <div className=' mx-auto'>
 
-      <form className="" onSubmit={onSubmitHandler}>
+
+      <form className="" onSubmit={handleSubmit(onSubmitHandler)}>
         <input type="hidden" name="remember" defaultValue="true" />
         <div className=" flex flex-col gap-5">
           {/* <div>
@@ -58,28 +85,26 @@ export default function Settings() {
             </label>
             <input
               id="username"
-              name="username"
-              type="text"
-              autoComplete="username"
-              required
               className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
               placeholder="Md Ishaque"
-              ref={userName}
+              {...register("username", { required: true, maxLength: 100 })}
+
             />
+            <p className='text-pink-400 pt-2'>{errors.username ? "This field is required!!" : ""}</p>
+
           </div>
           <div>
             <label htmlFor="bio" className="">
               A short bio about you...
             </label>
             <textarea
-              id="bio"
-              name="bio"
+              id="shortBio"
               type="textarea"
-              required
               className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
               placeholder="I am a javascript developer and I am a good human being."
-              ref={userBio}
+              {...register("shortBio", { required: true, maxLength: 1000 })}
             />
+            <p className='text-pink-400 pt-2'>{errors.shortBio ? "This field is required!!" : ""}</p>
           </div>
           <div>
             <label htmlFor="email-address" className="">
@@ -87,13 +112,9 @@ export default function Settings() {
             </label>
             <input
               id="email-address"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
+              disabled
               className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
-              placeholder="iamishaque.business@gmail.com"
-              ref={userEmail}
+              {...register("email_address")}
             />
           </div>
           <div>
@@ -102,14 +123,11 @@ export default function Settings() {
             </label>
             <input
               id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              required
               className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
               placeholder="123456"
-              ref={userPassword}
+            // {...register("password", {minLength: 8, maxLength: 16 })}
             />
+            <p className='text-pink-400 pt-2'>{errors.password ? "Password must be 8 to 16 characters" : ""}</p>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Photo</label>
@@ -123,10 +141,10 @@ export default function Settings() {
                 htmlFor='file-upload'
                 className="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 "
               >
-               <span>Change</span>
-              <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                <span>Change</span>
+                <input id="file-upload" name="file-upload" type="file" className="sr-only"  {...register("img_file")} />
               </label>
-              
+
             </div>
           </div>
 

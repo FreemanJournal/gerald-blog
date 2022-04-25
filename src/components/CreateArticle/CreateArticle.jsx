@@ -1,10 +1,11 @@
 import moment from 'moment';
-import React, { useCallback, useRef } from 'react';
+import React, { Children, useCallback, useRef } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
+import { toast, ToastContainer } from 'react-toastify';
 import auth from '../../utilities/firebase.init';
 export default function CreateArticle() {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const [user, loading, error] = useAuthState(auth);
 
   let date = moment(new Date()).format('MMMM DD,YYYY')
@@ -12,6 +13,7 @@ export default function CreateArticle() {
 
 
   const onSubmitHandler = (data) => {
+    console.log('onSubmitHandler',arguments);
     const newArticle = {
       ...data,
       img: user?.photoURL || "/images/profile.jpg",
@@ -31,7 +33,10 @@ export default function CreateArticle() {
       body: JSON.stringify(newArticle)
     })
       .then(res => res.json())
-      .then(result => console.log('result', result))
+      .then(result => {
+        reset();
+        toast.success("New article is posted!!!")
+      })
   };
 
 
@@ -41,7 +46,7 @@ export default function CreateArticle() {
 
   return (
     <div className=' mx-auto'>
-
+      <ToastContainer/>
       <form className="" onSubmit={handleSubmit(onSubmitHandler)}>
         <input type="hidden" name="remember" defaultValue="true" />
         <div className=" flex flex-col gap-5">
@@ -70,7 +75,7 @@ export default function CreateArticle() {
               name="blog"
               type="textarea"
               required
-              className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
+              className="appearance-none rounded-md relative block w-full h-96 px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
               placeholder="Write your blog..."
               {...register("description", { required: true, maxLength: 20000 })}
             />
