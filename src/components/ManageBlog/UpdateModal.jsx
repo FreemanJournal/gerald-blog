@@ -9,7 +9,7 @@ export default function UpdateModal({ isOpen, setIsOpen, id }) {
   
     const onUpdateHandler = (data) => {
         setIsOpen(false);
-        const uri = `http://localhost:5000/blog/${id}`
+        const uri = `${process.env.REACT_APP_uri}/blog/${id}`
         fetch(uri, {
             method: 'PUT',
             headers: {

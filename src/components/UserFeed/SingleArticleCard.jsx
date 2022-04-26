@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { BsDistributeHorizontal, BsHeartFill, BsHeart,BsSim } from 'react-icons/bs'
-import {FiEdit } from 'react-icons/fi'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { BsHeart } from 'react-icons/bs';
+import { FiEdit } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 import UserIntro from '../../utilities/UserIntro';
 import ManageBlog from '../ManageBlog/ManageBlog';
 

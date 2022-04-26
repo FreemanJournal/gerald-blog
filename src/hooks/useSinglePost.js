@@ -4,7 +4,7 @@ export default function useSinglePost(id) {
   
     const [singleArticle, setSingleArticle] = useState();
     useEffect(() => {
-        fetch(`http://localhost:5000/blog/${id}`)
+        fetch(`${process.env.REACT_APP_uri}/blog/${id}`)
             .then(res => res.json())
             .then(data => setSingleArticle(data))
     }, [id])

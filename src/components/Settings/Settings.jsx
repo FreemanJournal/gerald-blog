@@ -12,6 +12,7 @@ import auth from '../../utilities/firebase.init';
 export default function Settings() {
   const [user, loading, error] = useAuthState(auth);
   const [profileData, setProfileData] = useState({});
+  console.log('user',user);
 
   const navigate = useNavigate()
   // console.log('user.email',user.email);

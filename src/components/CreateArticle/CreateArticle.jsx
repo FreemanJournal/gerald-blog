@@ -10,10 +10,8 @@ export default function CreateArticle() {
 
   let date = moment(new Date()).format('MMMM DD,YYYY')
 
-
-
+  
   const onSubmitHandler = (data) => {
-    console.log('onSubmitHandler',arguments);
     const newArticle = {
       ...data,
       img: user?.photoURL || "/images/profile.jpg",
@@ -24,7 +22,7 @@ export default function CreateArticle() {
       likeCount: 0
     }
     console.log('newArticle', newArticle);
-    const uri = `http://localhost:5000/blog`
+    const uri = `${process.env.REACT_APP_uri}/blog`
     fetch(uri, {
       method: 'POST',
       headers: {

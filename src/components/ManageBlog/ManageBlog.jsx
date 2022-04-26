@@ -7,13 +7,14 @@ export default function ManageBlog({ id }) {
   const { globalData, setGlobalData } = useContext(GlobalContext);
   let [isOpen, setIsOpen] = useState(false)
   const article = globalData?.find(item => item._id === id)
+  
   const deleteArticleHandler = async () => {
     const value = await swal(`Do you want to DELETE "${article?.title}"?`, {
       buttons: true,
       dangerMode: true,
     })
     if (!value) return;
-    const uri = `http://localhost:5000/blog/${id}`
+    const uri = `${process.env.REACT_APP_uri}/blog/${id}`
     fetch(uri, {
       method: "DELETE"
     })
