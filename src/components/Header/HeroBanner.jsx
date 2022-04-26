@@ -7,9 +7,9 @@ import { GlobalContext } from '../../context/GlobalContext';
 
 export default function HeroBanner({ home, randomUser = false, writerName = "", userImg = "" }) {
   const [user, loading, error] = useAuthState(auth);
+  console.log('user Image',user?.photoURL);
   const navigate = useNavigate()
-  console.log('user?.photoURL', user?.photoURL);
-  let profileImg;
+  let profileImg = user?.photoURL
   if (user?.photoURL && !randomUser) {
     profileImg = user?.photoURL + ''
   } else if (!user?.photoURL && !randomUser) {

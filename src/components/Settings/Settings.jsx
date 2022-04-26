@@ -1,31 +1,42 @@
-import { signOut } from 'firebase/auth';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import auth from '../../utilities/firebase.init';
-import { IoIosLogOut } from 'react-icons/io'
-import { useForm } from 'react-hook-form';
-import { toast, ToastContainer } from 'react-toastify';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import axios from 'axios';
-import { async } from '@firebase/util';
+import { signOut } from 'firebase/auth';
+import React, { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useForm } from 'react-hook-form';
+import { IoIosLogOut } from 'react-icons/io';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import axiosPrivate from '../../api/axiosPrivate';
+import auth from '../../utilities/firebase.init';
 
 export default function Settings() {
   const [user, loading, error] = useAuthState(auth);
   const [profileData, setProfileData] = useState({});
 
+  const navigate = useNavigate()
+  // console.log('user.email',user.email);
+
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     defaultValues: {
       username: profileData?.username || user?.displayName,
-      email_address: user?.email,
+      email_address: user.email || '',
       shortBio: profileData?.shortBio || ''
     }
   });
 
   useEffect(() => {
     const getUser = async () => {
-      const uri = `${process.env.REACT_APP_uri}/user?email=${user?.email}`
-      const result = await axios.get(uri)
-      setProfileData(result.data)
+      try {
+        const uri = `/user?email=${user?.email}`
+        const result = await axiosPrivate.get(uri)
+        setProfileData(result.data)
+      } catch (error) {
+        if (error.response.status === 401 || error.response.status === 403) {
+          navigate('/signIn')
+          signOut(auth)
+        }
 
+      }
     }
     getUser()
   }, [user])
@@ -34,22 +45,10 @@ export default function Settings() {
     reset(profileData)
   }, [profileData])
 
- 
+
   const onSubmitHandler = (value) => {
-    // const uri = `${process.env.REACT_APP_uri}/user`
-    // console.log('http://localhost:5000/user',uri);
-    fetch(`http://localhost:5000/user`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(value)
-    })
-      .then(res => res.json())
-      .then(result => toast.info("User Info updated..."))
-      .catch((error)=>toast.error(error))
-
-
+    const uri = `${process.env.REACT_APP_uri}/user`
+    axios.post(uri, value).then(result => toast.info("User Info updated...")).catch(() => toast.error('Something went wrong...'))
   };
 
 
@@ -106,14 +105,14 @@ export default function Settings() {
             />
             <p className='text-pink-400 pt-2'>{errors.shortBio ? "This field is required!!" : ""}</p>
           </div>
-          <div>
+          <div className='pointer-events-none'>
             <label htmlFor="email-address" className="">
               Email address
             </label>
             <input
               id="email-address"
-              disabled
-              className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
+              className="appearance-none opacity-70 rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
+              // value={user?.email}
               {...register("email_address")}
             />
           </div>

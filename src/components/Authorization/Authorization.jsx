@@ -6,6 +6,7 @@ import useAuthProviderHandler from '../../hooks/useAuthProviderHandler';
 import auth from '../../utilities/firebase.init';
 import { ToastContainer, toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
+import axios from 'axios';
 export default function Authorization({ signIn }) {
   const [user, loading, error] = useAuthState(auth);
   
@@ -16,7 +17,7 @@ export default function Authorization({ signIn }) {
   const userEmail = useRef();
   const userPassword = useRef();
 
-  const onSubmitHandler = useCallback((e) => {
+  const onSubmitHandler = useCallback( async (e) => {
     e.preventDefault();
     const formData = {
       username: userName.current?.value,
@@ -26,7 +27,9 @@ export default function Authorization({ signIn }) {
     if (signIn) {
       const { email, password } = formData
       setAuthProvider('signIn')
-      signInWithEmailAndPassword(email, password) 
+      await signInWithEmailAndPassword(email, password) 
+      const {data} = await axios.post(`${process.env.REACT_APP_uri}/login`,{email})
+      localStorage.setItem('accessToken',data.accessToken)
     } else {
       const { username, email, password } = formData
       console.log('formData',formData);

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 
 export const GlobalContext = createContext();
@@ -5,9 +6,12 @@ export const GlobalContext = createContext();
 export const GlobalProvider = ({ children }) => {
     const [globalData, setGlobalData] = useState([]);
     const getData = () => {
-        fetch('http://localhost:5000/blogs')
-            .then(res => res.json())
-            .then(data => setGlobalData(data))
+        const uri = `${process.env.REACT_APP_uri}/blog`
+        axios.get(uri)
+            .then(result => {
+                setGlobalData(result.data)
+            })
+
     }
     useEffect(getData, [])
     return <GlobalContext.Provider value={{ globalData,setGlobalData }}>
