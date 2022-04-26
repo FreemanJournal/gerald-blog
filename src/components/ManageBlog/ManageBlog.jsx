@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useContext, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import swal from 'sweetalert';
@@ -7,7 +8,7 @@ export default function ManageBlog({ id }) {
   const { globalData, setGlobalData } = useContext(GlobalContext);
   let [isOpen, setIsOpen] = useState(false)
   const article = globalData?.find(item => item._id === id)
-  
+
   const deleteArticleHandler = async () => {
     const value = await swal(`Do you want to DELETE "${article?.title}"?`, {
       buttons: true,
@@ -15,10 +16,7 @@ export default function ManageBlog({ id }) {
     })
     if (!value) return;
     const uri = `${process.env.REACT_APP_uri}/blog/${id}`
-    fetch(uri, {
-      method: "DELETE"
-    })
-      .then(res => res.json())
+    axios.delete(uri)
       .then(() => {
         toast.info(`"${article?.title}" is deleted.`);
         setGlobalData(prev => prev?.filter(item => item._id !== id))
@@ -28,7 +26,7 @@ export default function ManageBlog({ id }) {
     <>
       <ToastContainer />
       <div className="flex gap-2 mt-10">
-        {<UpdateModal isOpen={isOpen} setIsOpen={setIsOpen} id={id}/>}
+        {<UpdateModal isOpen={isOpen} setIsOpen={setIsOpen} id={id} />}
         <button type="button" onClick={() => setIsOpen(prev => !prev)} className="py-1 px-6  bg-transparent text-emerald-400 font-medium text-sm leading-tight uppercase rounded border border-emerald-400 hover:bg-emerald-400 hover:text-white focus:outline-none focus:ring-0 transition duration-150 ease-in-out flex items-center justify-center">
           Edit
         </button>

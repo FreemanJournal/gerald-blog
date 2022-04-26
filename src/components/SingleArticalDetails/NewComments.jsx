@@ -14,7 +14,7 @@ export default function NewComments() {
     const onSubmitHandler = useCallback((e) => {
         e.preventDefault();
         const comment = userComment.current.value
-        console.log('comment', comment);
+       
 
     }, []);
 

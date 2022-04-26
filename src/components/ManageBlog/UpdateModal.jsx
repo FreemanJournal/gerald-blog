@@ -1,4 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
+import axios from 'axios';
 import { Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 export default function UpdateModal({ isOpen, setIsOpen, id }) {
@@ -6,18 +7,11 @@ export default function UpdateModal({ isOpen, setIsOpen, id }) {
         setIsOpen(false)
     }
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  
+
     const onUpdateHandler = (data) => {
         setIsOpen(false);
         const uri = `${process.env.REACT_APP_uri}/blog/${id}`
-        fetch(uri, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(res => res.json())
+        axios.put(uri, data)
             .then(result => console.log('result', result))
     };
 
@@ -92,7 +86,7 @@ export default function UpdateModal({ isOpen, setIsOpen, id }) {
                                                         <textarea
                                                             id="blog"
                                                             name="blog"
-                                                            type="textarea"              
+                                                            type="textarea"
                                                             className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
                                                             placeholder="Write your blog..."
                                                             {...register("description", { required: true, maxLength: 20000 })}
@@ -104,7 +98,7 @@ export default function UpdateModal({ isOpen, setIsOpen, id }) {
                                                 </div>
                                                 <div className="flex items-center justify-end gap-3 p-4 mt-5 border-t">
                                                     <button type='submit' className="px-6 py-2 text-white bg-emerald-400 rounded-md outline-none"
-                                                    
+
                                                     >
                                                         Update
                                                     </button>

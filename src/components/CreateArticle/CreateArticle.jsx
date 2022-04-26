@@ -1,3 +1,4 @@
+import axios from 'axios';
 import moment from 'moment';
 import React, { Children, useCallback, useRef } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -10,7 +11,7 @@ export default function CreateArticle() {
 
   let date = moment(new Date()).format('MMMM DD,YYYY')
 
-  
+
   const onSubmitHandler = (data) => {
     const newArticle = {
       ...data,
@@ -21,17 +22,10 @@ export default function CreateArticle() {
       commentCount: 0,
       likeCount: 0
     }
-    console.log('newArticle', newArticle);
+    
     const uri = `${process.env.REACT_APP_uri}/blog`
-    fetch(uri, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newArticle)
-    })
-      .then(res => res.json())
-      .then(result => {
+    axios.post(uri, newArticle)
+      .then(() => {
         reset();
         toast.success("New article is posted!!!")
       })
@@ -44,7 +38,7 @@ export default function CreateArticle() {
 
   return (
     <div className=' mx-auto'>
-      <ToastContainer/>
+      <ToastContainer />
       <form className="" onSubmit={handleSubmit(onSubmitHandler)}>
         <input type="hidden" name="remember" defaultValue="true" />
         <div className=" flex flex-col gap-5">
