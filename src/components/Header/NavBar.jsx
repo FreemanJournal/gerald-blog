@@ -16,7 +16,6 @@ export default function NavBar() {
     } else {
       setDisplay(false)
     }
-
   }, [user])
 
   const navigation = [

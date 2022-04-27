@@ -1,54 +1,43 @@
 import axios from 'axios';
 import { signOut } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { IoIosLogOut } from 'react-icons/io';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import axiosPrivate from '../../api/axiosPrivate';
+import { GlobalContext } from '../../context/GlobalContext';
+import useAuthProviderHandler from '../../hooks/useAuthProviderHandler';
 import auth from '../../utilities/firebase.init';
 
 export default function Settings() {
   const [user, loading, error] = useAuthState(auth);
-  const [profileData, setProfileData] = useState({});
-  const navigate = useNavigate()
+  const {getUser} = useContext(GlobalContext);
+  const { updateProfile, setAuthProvider } = useAuthProviderHandler()
   const initialData = {
-    username: profileData?.username || user?.displayName,
-    email_address: user.email || '',
-    shortBio: profileData?.shortBio || ''
+    username:  user?.displayName,
+    email_address: user?.email,
+    shortBio:''
   }
- 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({
-    defaultValues: initialData
-  });
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({defaultValues:initialData});
+  const customId = "custom-id-yes";
 
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const uri = `/user?email=${user?.email}`
-        const result = await axiosPrivate.get(uri)
-        setProfileData(result.data)
-      } catch (error) {
-        console.log(error.response.status);
-        // if (error.response.status === 401 || error.response.status === 403) {
-        //   navigate('/signIn')
-        //   signOut(auth)
-        // }
-
-      }
-    }
-    getUser()
+    getUser(user?.email)
+    .then((result)=>{
+      reset(result)
+    })
   }, [user])
-
-  useEffect(() => {
-    reset(profileData)
-  }, [profileData])
 
 
   const onSubmitHandler = (value) => {
     const uri = `${process.env.REACT_APP_uri}/user/update`
-    axios.post(uri, value).then(result => toast.info("User Info updated...")).catch(() => toast.error('Something went wrong...'))
+    setAuthProvider('updating')
+    updateProfile({ displayName:value.username }).then(result => toast.info("User Info updated...", {
+      toastId: customId
+    })).catch(() => toast.error('Something went wrong...'))
+    axios.post(uri, value).then(result => toast.info("User Info updated...", {
+      toastId: customId
+    })).catch(() => toast.error('Something went wrong...'))
   };
 
 

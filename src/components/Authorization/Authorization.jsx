@@ -1,16 +1,20 @@
 import axios from 'axios';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import React, { useCallback, useContext, useEffect, useRef } from 'react';
+import { useAuthState, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { Helmet } from 'react-helmet-async';
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import { GlobalContext } from '../../context/GlobalContext';
 import useAuthProviderHandler from '../../hooks/useAuthProviderHandler';
 import auth from '../../utilities/firebase.init';
 
 export default function Authorization({ signIn }) {
   const [user, loading, error] = useAuthState(auth);
-  const { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, signInWithGoogle, errorMessage, authLoading, setAuthProvider } = useAuthProviderHandler()
+  const [signInWithGoogle,googleUser , googleSignInLoading, googleSignInError] = useSignInWithGoogle(auth);
+
+  const { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, errorMessage, authLoading, setAuthProvider } = useAuthProviderHandler()
+  const { getUser } = useContext(GlobalContext);
 
 
 
@@ -21,22 +25,37 @@ export default function Authorization({ signIn }) {
 
 
 
-  const createUser = (data) => {
+
+  const createUser = async (data) => {
     const { email, displayName } = data || {}
     const userData = {
       username: displayName || userName.current?.value,
       email_address: email || userEmail.current?.value,
       shortBio: ''
     }
-    const uri = `${process.env.REACT_APP_uri}/user/update`
-    data && axios.post(uri, userData)
+    const userInfo = await getUser(email);
+    if (!userInfo) {
+      const uri = `${process.env.REACT_APP_uri}/user/update`
+      data && axios.post(uri, userData)
+    }
+
+
   }
 
   useEffect(() => {
     createUser(user)
   }, [user])
 
+  const createAccessToken = async (email) => {
+    const { data } = await axios.post(`${process.env.REACT_APP_uri}/login`, { email })
+    localStorage.setItem('accessToken', data.accessToken)
 
+  }
+  
+  useEffect(()=>{
+    createAccessToken(googleUser?.user.email)
+  },[googleUser])
+  
   const onSubmitHandler = useCallback(async (e) => {
     e.preventDefault();
 
@@ -49,8 +68,9 @@ export default function Authorization({ signIn }) {
       const { email, password } = formData
       setAuthProvider('signIn')
       await signInWithEmailAndPassword(email, password)
-      const { data } = await axios.post(`${process.env.REACT_APP_uri}/login`, { email })
-      localStorage.setItem('accessToken', data.accessToken)
+      createAccessToken(email)
+      // const { data } = await axios.post(`${process.env.REACT_APP_uri}/login`, { email })
+      // localStorage.setItem('accessToken', data.accessToken)
     } else {
       const { displayName, email, password } = formData
       setAuthProvider('signUp')
@@ -58,13 +78,16 @@ export default function Authorization({ signIn }) {
         .then(() => {
           setAuthProvider('updating')
           updateProfile({ displayName })
+          createAccessToken(email)
+
         })
     }
   }, [signIn]);
 
   const googleSignInHandler = () => {
-    signInWithGoogle();
     setAuthProvider('googleSignIn')
+    signInWithGoogle()
+    // console.log('Hello mom from signin with google',result);
   }
 
   // Redirect
