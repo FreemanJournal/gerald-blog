@@ -1,46 +1,71 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import axios from 'axios';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { Helmet } from 'react-helmet-async';
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import useAuthProviderHandler from '../../hooks/useAuthProviderHandler';
 import auth from '../../utilities/firebase.init';
-import { ToastContainer, toast } from 'react-toastify';
-import { Helmet } from 'react-helmet-async';
-import axios from 'axios';
+
 export default function Authorization({ signIn }) {
   const [user, loading, error] = useAuthState(auth);
-  
   const { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, signInWithGoogle, errorMessage, authLoading, setAuthProvider } = useAuthProviderHandler()
+
+
 
   // Form Data
   const userName = useRef();
   const userEmail = useRef();
   const userPassword = useRef();
 
-  const onSubmitHandler = useCallback( async (e) => {
+
+
+  const createUser = (data) => {
+    const { email, displayName } = data || {}
+    const userData = {
+      username: displayName || userName.current?.value,
+      email_address: email || userEmail.current?.value,
+      shortBio: ''
+    }
+    const uri = `${process.env.REACT_APP_uri}/user/update`
+    data && axios.post(uri, userData)
+  }
+
+  useEffect(() => {
+    createUser(user)
+  }, [user])
+
+
+  const onSubmitHandler = useCallback(async (e) => {
     e.preventDefault();
+
     const formData = {
-      username: userName.current?.value,
+      displayName: userName.current?.value,
       email: userEmail.current?.value,
       password: userPassword.current?.value
     }
     if (signIn) {
       const { email, password } = formData
       setAuthProvider('signIn')
-      await signInWithEmailAndPassword(email, password) 
-      const {data} = await axios.post(`${process.env.REACT_APP_uri}/login`,{email})
-      localStorage.setItem('accessToken',data.accessToken)
+      await signInWithEmailAndPassword(email, password)
+      const { data } = await axios.post(`${process.env.REACT_APP_uri}/login`, { email })
+      localStorage.setItem('accessToken', data.accessToken)
     } else {
-      const { username, email, password } = formData
-      console.log('formData',formData);
+      const { displayName, email, password } = formData
       setAuthProvider('signUp')
       createUserWithEmailAndPassword(email, password)
         .then(() => {
           setAuthProvider('updating')
-          updateProfile({ displayName: username })
+          updateProfile({ displayName })
         })
     }
   }, [signIn]);
+
+  const googleSignInHandler = () => {
+    signInWithGoogle();
+    setAuthProvider('googleSignIn')
+  }
 
   // Redirect
 
@@ -58,7 +83,7 @@ export default function Authorization({ signIn }) {
   return (
     <div className='w-96 md:w-4/12 mx-auto mt-16'>
       <Helmet>
-        <title>{signIn?'Sign In':'Sign Up'}</title>
+        <title>{signIn ? 'Sign In' : 'Sign Up'}</title>
       </Helmet>
       <ToastContainer />
       <div className="text-center">
@@ -135,10 +160,7 @@ export default function Authorization({ signIn }) {
 
         </div>
 
-        <button onClick={() => {
-          signInWithGoogle()
-          setAuthProvider('googleSignIn')
-        }}
+        <button onClick={googleSignInHandler}
           className=" flex gap-1 justify-center font-semibold border border-zinc-400 py-2 px-10 shadow-md rounded-md  text-emerald-600 hover:text-emerald-500" >
           <FcGoogle className='font-bold text-2xl' /><span>Continue with google</span>
         </button>

@@ -12,17 +12,15 @@ import auth from '../../utilities/firebase.init';
 export default function Settings() {
   const [user, loading, error] = useAuthState(auth);
   const [profileData, setProfileData] = useState({});
-  console.log('user',user);
-
   const navigate = useNavigate()
-  // console.log('user.email',user.email);
-
+  const initialData = {
+    username: profileData?.username || user?.displayName,
+    email_address: user.email || '',
+    shortBio: profileData?.shortBio || ''
+  }
+ 
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
-    defaultValues: {
-      username: profileData?.username || user?.displayName,
-      email_address: user.email || '',
-      shortBio: profileData?.shortBio || ''
-    }
+    defaultValues: initialData
   });
 
   useEffect(() => {
@@ -32,10 +30,11 @@ export default function Settings() {
         const result = await axiosPrivate.get(uri)
         setProfileData(result.data)
       } catch (error) {
-        if (error.response.status === 401 || error.response.status === 403) {
-          navigate('/signIn')
-          signOut(auth)
-        }
+        console.log(error.response.status);
+        // if (error.response.status === 401 || error.response.status === 403) {
+        //   navigate('/signIn')
+        //   signOut(auth)
+        // }
 
       }
     }
@@ -48,7 +47,7 @@ export default function Settings() {
 
 
   const onSubmitHandler = (value) => {
-    const uri = `${process.env.REACT_APP_uri}/user`
+    const uri = `${process.env.REACT_APP_uri}/user/update`
     axios.post(uri, value).then(result => toast.info("User Info updated...")).catch(() => toast.error('Something went wrong...'))
   };
 

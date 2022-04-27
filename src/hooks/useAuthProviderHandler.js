@@ -8,14 +8,17 @@ export default function useAuthProviderHandler() {
     const [authProvider,setAuthProvider] = useState()
     const [authLoading,setAuthLoading] = useState(false);
 
-    const [signInWithGoogle, , googleSignInLoading, googleSignInError] = useSignInWithGoogle(auth);
+    const [signInWithGoogle,googleUser , googleSignInLoading, googleSignInError] = useSignInWithGoogle(auth);
     const [createUserWithEmailAndPassword, , signUpLoading, signUpError] = useCreateUserWithEmailAndPassword(auth);
     const [updateProfile, updating, updatingError] = useUpdateProfile(auth);
     const [signInWithEmailAndPassword, , signInLoading, signInError] = useSignInWithEmailAndPassword(auth);
+  
 
     const messageHandler = (error) =>{
         const userMessage = error?.message
         switch (userMessage) {
+            case 'Firebase: Error (auth/popup-closed-by-user).':
+                break;
             case 'Firebase: Password should be at least 6 characters (auth/weak-password).':
                 toast.error('Password should be at least 6 characters long.')
                 break;
@@ -43,7 +46,7 @@ export default function useAuthProviderHandler() {
     useEffect(() => {
         switch (authProvider) {
             case 'signUp':
-                console.log('signUpError',signUpError);
+    
                 messageHandler(signUpError)
                 break;
             case 'signIn':
@@ -63,5 +66,5 @@ export default function useAuthProviderHandler() {
    
 
 
-    return {createUserWithEmailAndPassword,updateProfile,signInWithEmailAndPassword,signInWithGoogle,errorMessage,authLoading,setAuthProvider}
+    return {createUserWithEmailAndPassword,updateProfile,signInWithEmailAndPassword,signInWithGoogle,googleUser,errorMessage,authLoading,setAuthProvider}
 }
