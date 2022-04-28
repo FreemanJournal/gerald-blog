@@ -25,7 +25,6 @@ export const GlobalProvider = ({ children }) => {
             return result.data;
         } catch (error) {
             if (error.response.status === 401 || error.response.status === 403) {
-                // Navigate('/signIn')
                 signOut(auth)
             }
 

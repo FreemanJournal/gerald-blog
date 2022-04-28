@@ -1,13 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { BsGear } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import auth from '../../utilities/firebase.init';
-import { BsGear } from 'react-icons/bs'
-import { GlobalContext } from '../../context/GlobalContext';
 
 export default function HeroBanner({ home, randomUser = false, writerName = "", userImg = "" }) {
   const [user, loading, error] = useAuthState(auth);
-  console.log('user Image',user?.photoURL);
   const navigate = useNavigate()
   let profileImg = user?.photoURL
   if (user?.photoURL && !randomUser) {

@@ -11,9 +11,10 @@ import auth from '../../utilities/firebase.init';
 
 export default function Authorization({ signIn }) {
   const [user, loading, error] = useAuthState(auth);
-  const [signInWithGoogle,googleUser , googleSignInLoading, googleSignInError] = useSignInWithGoogle(auth);
+  
+  // const [signInWithGoogle, googleUser, googleSignInLoading, googleSignInError] = useSignInWithGoogle(auth);
 
-  const { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, errorMessage, authLoading, setAuthProvider } = useAuthProviderHandler()
+  const { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword,signInWithGoogle, errorMessage, authLoading, setAuthProvider } = useAuthProviderHandler()
   const { getUser } = useContext(GlobalContext);
 
 
@@ -23,39 +24,31 @@ export default function Authorization({ signIn }) {
   const userEmail = useRef();
   const userPassword = useRef();
 
-
-
-
-  const createUser = async (data) => {
-    const { email, displayName } = data || {}
+  const createUser = async (user) => {
+    const { email, displayName } = user || {}
     const userData = {
       username: displayName || userName.current?.value,
       email_address: email || userEmail.current?.value,
       shortBio: ''
     }
-    const userInfo = await getUser(email);
-    if (!userInfo) {
-      const uri = `${process.env.REACT_APP_uri}/user/update`
-      data && axios.post(uri, userData)
-    }
-
-
-  }
-
-  useEffect(() => {
-    createUser(user)
-  }, [user])
-
-  const createAccessToken = async (email) => {
+    // create access token
     const { data } = await axios.post(`${process.env.REACT_APP_uri}/login`, { email })
     localStorage.setItem('accessToken', data.accessToken)
 
+    // create first user profile
+    const userInfo = await getUser(email);
+    if (!userInfo) {
+      const uri = `${process.env.REACT_APP_uri}/user/update`
+      user && axios.post(uri, userData)
+    }
   }
-  
+
+ 
+
   useEffect(()=>{
-    createAccessToken(googleUser?.user.email)
-  },[googleUser])
-  
+    createUser(user)
+  },[user])
+
   const onSubmitHandler = useCallback(async (e) => {
     e.preventDefault();
 
@@ -67,10 +60,8 @@ export default function Authorization({ signIn }) {
     if (signIn) {
       const { email, password } = formData
       setAuthProvider('signIn')
-      await signInWithEmailAndPassword(email, password)
-      createAccessToken(email)
-      // const { data } = await axios.post(`${process.env.REACT_APP_uri}/login`, { email })
-      // localStorage.setItem('accessToken', data.accessToken)
+      signInWithEmailAndPassword(email, password)
+
     } else {
       const { displayName, email, password } = formData
       setAuthProvider('signUp')
@@ -78,8 +69,6 @@ export default function Authorization({ signIn }) {
         .then(() => {
           setAuthProvider('updating')
           updateProfile({ displayName })
-          createAccessToken(email)
-
         })
     }
   }, [signIn]);
@@ -87,7 +76,6 @@ export default function Authorization({ signIn }) {
   const googleSignInHandler = () => {
     setAuthProvider('googleSignIn')
     signInWithGoogle()
-    // console.log('Hello mom from signin with google',result);
   }
 
   // Redirect
