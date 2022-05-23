@@ -3,26 +3,29 @@ import { useContext, useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { GlobalContext } from '../../context/GlobalContext'
 import auth from '../../utilities/firebase.init'
+import Loader from '../../utilities/Loader'
 import SingleArticleCard from './SingleArticleCard'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Feed({ home, randomUser = false, userBlogs}) {
+export default function Feed({ home, randomUser = false, userBlogs }) {
     const { globalData } = useContext(GlobalContext)
     const [user, loading, error] = useAuthState(auth);
     const [feedData, setFeedData] = useState([...globalData]);
 
- 
-
     useEffect(() => {
         if (randomUser) {
             setFeedData(userBlogs)
-        }else{
+        } else {
             setFeedData(globalData)
         }
-    }, [randomUser,globalData])
+    }, [randomUser,userBlogs, globalData])
+
+    if(globalData.length === 0){
+        return <Loader/>
+    }
 
     return (
         <div className="px-2 py-16 sm:px-0">

@@ -1,22 +1,36 @@
 import axios from "axios";
 import { signOut } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
+import useSWR from "swr";
 import axiosPrivate from "../api/axiosPrivate";
 import auth from "../utilities/firebase.init";
 export const GlobalContext = createContext();
 
+
+
 export const GlobalProvider = ({ children }) => {
     const [globalData, setGlobalData] = useState([]);
     const [profileData, setProfileData] = useState({});
+    const uri = `${process.env.REACT_APP_uri}/blog`;
+
+    // const fetcher = url => axios.get(url).then(res => res.data)
+    // const { data, error } = useSWR(uri, fetcher)
+
+    // useEffect(() => {
+    //     console.log('data', data);
+    //     setGlobalData(data)
+    // }, [data])
 
     const getData = () => {
-        const uri = `${process.env.REACT_APP_uri}/blog`
         axios.get(uri)
             .then(result => {
                 setGlobalData(result.data)
             })
-
     }
+
+    console.log('globalData',globalData);
+    useEffect(()=>getData(),[])
+
     const getUser = async (email) => {
         try {
             const uri = `/user?email=${email}`
@@ -34,8 +48,8 @@ export const GlobalProvider = ({ children }) => {
 
 
 
-    useEffect(getData, [])
-    return <GlobalContext.Provider value={{ globalData, setGlobalData, profileData, getUser }}>
+
+    return <GlobalContext.Provider value={{ globalData, setGlobalData, profileData, getUser, isLoading: !globalData }}>
         {children}
     </GlobalContext.Provider>
 }

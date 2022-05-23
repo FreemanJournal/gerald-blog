@@ -46,7 +46,6 @@ export default function useAuthProviderHandler() {
     useEffect(() => {
         switch (authProvider) {
             case 'signUp':
-    
                 messageHandler(signUpError)
                 break;
             case 'signIn':

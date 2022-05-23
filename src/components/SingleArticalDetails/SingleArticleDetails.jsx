@@ -3,6 +3,7 @@ import { BsHeart } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GlobalContext } from '../../context/GlobalContext';
 import useSinglePost from '../../hooks/useSinglePost';
+import Loader from '../../utilities/Loader';
 import UserIntro from '../../utilities/UserIntro';
 import Comments from './Comments';
 
@@ -13,6 +14,10 @@ export default function SingleArticleDetails() {
    
     // const singlePost = globalData.find((post) => post._id === blogId)
     const {singleArticle} = useSinglePost(blogId)
+    if(!singleArticle){
+        return <Loader/>
+    }
+
 
     const { _id, img, blogWriter, date, title, description, tags, commentCount, likeCount } = singleArticle || {}
 

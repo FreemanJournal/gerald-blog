@@ -1,10 +1,12 @@
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
-
 import HeroBanner from '../../components/Header/HeroBanner'
 import Feed from '../../components/UserFeed/Feed'
 
+
 export default function Home() {
+
+
   return (
     <>
       <Helmet>

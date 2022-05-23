@@ -1,35 +1,48 @@
 import axios from 'axios';
 import moment from 'moment';
-import React, { Children, useCallback, useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import { Editor } from "react-draft-wysiwyg";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
 import auth from '../../utilities/firebase.init';
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 export default function CreateArticle() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
+
   const [user, loading, error] = useAuthState(auth);
+  const [editorState, setEditorState] = useState();
 
   let date = moment(new Date()).format('MMMM DD,YYYY')
 
+  const myEditorRef = useRef("");
+
+
 
   const onSubmitHandler = (data) => {
-    const newArticle = {
-      ...data,
-      img: user?.photoURL || "/images/profile.jpg",
-      userId: user?.uid,
-      blogWriter: user?.displayName,
-      date: date,
-      commentCount: 0,
-      likeCount: 0
-    }
-    
-    const uri = `${process.env.REACT_APP_uri}/blog`
-    axios.post(uri, newArticle)
-      .then(() => {
-        reset();
-        toast.success("New article is posted!!!")
-      })
+    console.log('data', data)
+    console.log('editorRef', myEditorRef.current);
+    // const newArticle = {
+    //   ...data,
+    //   img: user?.photoURL || "/images/profile.jpg",
+    //   userId: user?.uid,
+    //   blogWriter: user?.displayName,
+    //   date: date,
+    //   commentCount: 0,
+    //   likeCount: 0
+    // }
+
+    // const uri = `${process.env.REACT_APP_uri}/blog`
+    // axios.post(uri, newArticle)
+    //   .then(() => {
+    //     reset();
+    //     toast.success("New article is posted!!!")
+    //   })
   };
+
+  const onEditorChangeHandler = (value) =>{
+    console.log('value',value);
+  }
 
 
 
@@ -58,7 +71,29 @@ export default function CreateArticle() {
             />
           </div>
 
-          <div>
+
+
+          <div className='rounded-md relative block w-full overflow-scroll h-96 px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm'>
+            <label htmlFor="blog" className="sr-only">
+              Blog
+            </label>
+            <Editor
+              // onChange={editorState}
+
+              editorRef={myEditorRef}
+              toolbarClassName="toolbarClassName"
+              wrapperClassName="wrapperClassName"
+              editorClassName="editorClassName"
+             
+              // wrapperStyle={<wrapperStyleObject>}
+              // editorStyle={<editorStyleObject>}
+              // toolbarStyle={<toolbarStyleObject>}
+              // onEditorStateChange={setEditorState}
+            // {...register("description", { required: true, maxLength: 20000 })}
+
+            />;
+          </div>
+          {/* <div>
             <label htmlFor="blog" className="sr-only">
               Blog
             </label>
@@ -71,7 +106,7 @@ export default function CreateArticle() {
               placeholder="Write your blog..."
               {...register("description", { required: true, maxLength: 20000 })}
             />
-          </div>
+          </div> */}
           {/* <div>
             <label htmlFor="tags" className="sr-only">
               Tags
